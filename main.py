@@ -54,9 +54,8 @@ elif Army_size == 4:
     Friendly.size = 10000
 time.sleep(0.2)
 
-Army_terrain = jas.input_checks(co.Cyan + "\n\nplease input terrain\n"
-                                + co.LightGreen + "[1]flat plains\n[2]river crossing\n[3]thick forest\n[4]rugged hills\n[5]sodden swamp" + co.LightRed,
-                                5, Friendly, Turn_count, Maneuver_check)
+Army_terrain = jas.input_checks(co.Cyan + "\n\nplease input terrain\n"+ co.LightGreen + "[1]flat plains\n[2]river crossing\n[3]thick forest\n[4]rugged hills\n[5]sodden swamp" + co.LightRed,5, Friendly, Turn_count, Maneuver_check)
+
 time.sleep(0.2)
 Friendly.originalset(Army_points)
 Friendly.player.inf = jas.input_checks(
@@ -68,8 +67,7 @@ time.sleep(0.2)
 
 jas.pwc("\n\ninput army size for cavalry (2 army size for 1 cavalry)", co.Cyan)
 print("remaining army points: " + str(Army_points))
-print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(
-    Friendly.player.arti))
+print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(Friendly.player.arti))
 
 Friendly.player.cav = int(jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check))
 Army_points -= Friendly.player.cav
@@ -79,16 +77,14 @@ time.sleep(0.2)
 
 jas.pwc("\n\ninput army size for artillery (15 army size for 1 artillery)", co.Cyan)
 print("remaining army points: " + str(Army_points))
-print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(
-    Friendly.player.arti))
+print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(Friendly.player.arti))
 
 Friendly.player.arti = int(jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check))
 Army_points -= Friendly.player.arti
 Friendly.player.arti /= 10
 Friendly.player.arti = round(Friendly.player.arti, 1)
 
-print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(
-    Friendly.player.arti))
+print("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(Friendly.player.arti))
 time.sleep(0.2)
 
 jas.pwc("\n\nremaining army points will be turned into infantry", co.Magenta)
@@ -96,9 +92,7 @@ Friendly.player.inf += Army_points
 Army_points = 0
 time.sleep(0.2)
 
-jas.pwc("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(
-    Friendly.player.arti),
-        co.LightRed)
+jas.pwc("Infantry: " + str(Friendly.player.inf) + "\nCavalry: " + str(Friendly.player.cav) + "\nArtillery: " + str(Friendly.player.arti),co.LightRed)
 time.sleep(0.2)
 Friendly.setvars()
 sp = "        "
@@ -106,10 +100,7 @@ nl = "\n"
 Turn_count = 1
 Maneuver_check = 1
 while Maneuver_check == 1:
-    jas.easyprint("BATTLE HAS STARTED",
-                  [["MANUEVER PHRASE, TURN ", Turn_count, 2], ["MORALE: ", Friendly.player.morale],
-                   ["ORGANIZATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.position],
-                   ["RECONNAISSANCE: ", Friendly.player.scouting], ["FORTIFICATION: ", Friendly.player.defense]])
+    jas.easyprint("BATTLE HAS STARTED",[["MANUEVER PHRASE, TURN ", Turn_count, 2], ["MORALE: ", Friendly.player.morale],["ORGANIZATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.position],["RECONNAISSANCE: ", Friendly.player.scouting], ["FORTIFICATION: ", Friendly.player.defense]])
     Turn_count += 1
     Tension += random.randint(1, 3)
     if Tension > 30:
@@ -117,8 +108,7 @@ while Maneuver_check == 1:
         Skirmish_check = 1
         break
     if Army_terrain == 1:
-        print(
-            co.Cyan + "Flat Terrain Maneuvers\n" + co.LightGreen + "[1] establish fortifications (++defense)\n[2] establish war room (++command)\n[3] set up camp (++morale,-organization)\n[4] scout enemy positions (+scouting,+tension)\n[5] march to good terrain (+position,+tension)\n[6] forced march to good terrain (++position,-morale,++tension)\n[7] perform a rousing speach (+morale) ")
+        print(co.Cyan + "Flat Terrain Maneuvers\n" + co.LightGreen + "[1] establish fortifications (++defense)\n[2] establish war room (++command)\n[3] set up camp (++morale,-organization)\n[4] scout enemy positions (+scouting,+tension)\n[5] march to good terrain (+position,+tension)\n[6] forced march to good terrain (++position,-morale,++tension)\n[7] perform a rousing speach (+morale) ")
         Command_num = int(jas.inputprint("", Friendly, Turn_count, Maneuver_check))
         # =============================================================================
         if Command_num == 1:
@@ -234,12 +224,9 @@ while Maneuver_check == 1:
 Tension = 0
 
 while Skirmish_check == 1:
-    jas.easyprint("\nCONFLICT HAS ESCALATED",
-    [["SKRIMISH PHASE: TURN ", Turn_count, 2], ["MORALE: ", Friendly.player.morale],
-    ["ORGANISATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.position],
-    ["RECONNAISSANCE: ", Friendly.player.scouting],
-    ["FORTIFICATION: ", Friendly.player.defense],
-    ["SUPPRESSION: ", Friendly.player.suppresion, 1]])
+    jas.easyprint("\nCONFLICT HAS ESCALATED", [["SKRIMISH PHASE: TURN ", Turn_count, 2], ["MORALE: ", Friendly.player.morale],
+    ["ORGANISATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.position],["RECONNAISSANCE: ", Friendly.player.scouting],
+    ["FORTIFICATION: ", Friendly.player.defense],["SUPPRESSION: ", Friendly.player.suppresion, 1]])
     jas.easyprint("\nENEMY RECON: TURN ", [[Turn_count, 2]])
     jas.recon("MORALE",Friendly.player.scouting,Friendly.morale) 
     jas.recon("ORGANIZATION",Friendly.player.scouting,Friendly.organization)
@@ -248,16 +235,13 @@ while Skirmish_check == 1:
     jas.recon("FORTIFICATION",Friendly.player.scouting,Friendly.defense)
     jas.recon("SUPPRESSION", Friendly.player.scouting,Friendly.suppresion)
 
-    jas.easyprint("ARMY STATISTICS",
-    [["INFANTRY: ", Friendly.player.inf, 2], ["INFANTRY LOSSES: ", Friendly.player.inf_losses, 2],
+    jas.easyprint("ARMY STATISTICS",[["INFANTRY: ", Friendly.player.inf, 2], ["INFANTRY LOSSES: ", Friendly.player.inf_losses, 2],
     ["CAVALRY: ", Friendly.player.cav, 2], ["CAVALRY LOSSES: ", Friendly.player.cav_losses, 2],
     ["ARTILLERY: ", Friendly.player.arti, 2], ["ARTILLERY LOSSES: ", Friendly.player.arti_losses, 2],
     ["TOTAL TROOP COUNT: ", Friendly.player.inf + Friendly.player.cav + Friendly.player.arti, 2],
-    ["TOTAL LOSSES: ",
-    Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses, 2]])
+    ["TOTAL LOSSES: ",Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses, 2]])
 
-    jas.easyprint("ENEMY ARMY STATISTICS",
-    [["INFANTRY: ", Friendly.inf, 2], ["INFANTRY LOSSES: ", Friendly.inf_losses, 2],
+    jas.easyprint("ENEMY ARMY STATISTICS",[["INFANTRY: ", Friendly.inf, 2], ["INFANTRY LOSSES: ", Friendly.inf_losses, 2],
     ["CAVALRY: ", Friendly.cav, 2], ["CAVALRY LOSSES: ", Friendly.cav_losses, 2],
     ["ARTILLERY: ", Friendly.arti, 2], ["ARTILLERY LOSSES: ", Friendly.arti_losses, 2],
     ["TOTAL TROOP COUNT: ", Friendly.inf + Friendly.cav + Friendly.arti, 2],
@@ -273,9 +257,7 @@ while Skirmish_check == 1:
         break
     if Army_terrain == 1:
         jas.pwc("Flat Terrain Maneuvers\n", "blue")
-        print(
-            "[1] form rank (++organization)\n[2] form council with army staff (+command)\n[3] perform pre-emptive artillery barrage (++enemysuppresion,-enemy organization,ENGAGE IN RANGED ATTACK,++++tension)\n[4] harass enemy positions (+scouting,+enemy suppresion,++tensionF,ENGAGE IN SKIRMISH ATTACK)\n[5] send in a cavalry raid (-enemy organisation,-enemy morale,-enemy position,+tension,ENGAGE IN SKIRMISH ATTACK)\n[6] fortify forward positions (+position,+fortification,)\n[7] perform a rousing speach (++morale)",
-            "pink")
+        print("[1] form rank (++organization)\n[2] form council with army staff (+command)\n[3] perform pre-emptive artillery barrage (++enemysuppresion,-enemy organization,ENGAGE IN RANGED ATTACK,++++tension)\n[4] harass enemy positions (+scouting,+enemy suppresion,++tensionF,ENGAGE IN SKIRMISH ATTACK)\n[5] send in a cavalry raid (-enemy organisation,-enemy morale,-enemy position,+tension,ENGAGE IN SKIRMISH ATTACK)\n[6] fortify forward positions (+position,+fortification,)\n[7] perform a rousing speach (++morale)","pink")
         Command_num = int(jas.inputprint("", Friendly, Turn_count, Maneuver_check))
         if Command_num == 1:
             Rand_num = random.randint(2, 3)
@@ -300,28 +282,23 @@ while Skirmish_check == 1:
         elif Command_num == 3:
             Subturn_count = 1
         # while Subturn_count != 0:
-        jas.easyprint("RANGED ATTACK",
-        [["ARTILLERY BOMBARDMENT: SUBTURN ", Subturn_count, 2], ["MORALE: ", Friendly.player.inf_losses],
+        jas.easyprint("RANGED ATTACK",[["ARTILLERY BOMBARDMENT: SUBTURN ", Subturn_count, 2], ["MORALE: ", Friendly.player.inf_losses],
         ["ORGANISATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.defense],
         ["SUPPRESSION: ", Friendly.player.suppresion, 1]])
-        jas.easyprint("BATTLE STATISTICS",
-        [["INFANTRY: ", Friendly.player.inf, 2], ["INFANTRY LOSSES: ", Friendly.player.inf_losses, 2],
+        jas.easyprint("BATTLE STATISTICS",[["INFANTRY: ", Friendly.player.inf, 2], ["INFANTRY LOSSES: ", Friendly.player.inf_losses, 2],
         ["CAVALRY: ", Friendly.player.cav, 2], ["CAVALRY LOSSES: ", Friendly.player.cav_losses, 2],
         ["ARTILLERY: ", Friendly.player.arti, 2], ["ARTILLERY LOSSES: ", Friendly.player.arti_losses, 2],
         ["TOTAL TROOP COUNT: ", Friendly.player.inf + Friendly.player.cav + Friendly.player.arti, 2],
-        ["TOTAL LOSSES: ",
-        Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses, 2]])
+        ["TOTAL LOSSES: ",Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses, 2]])
         Subturn_count += 1
         jas.pwc("Bombardment options", co.Cyan)
-        print(
-            "[1] target center (++central breakthrough,+suppresion,+morale damage)\n[2] target flank (++flanking,+suppresion,+morale damage)\n[3] suppresive fire (+++suppresion,-enemy organization)\n[4] concentrated fire (++morale damage,--enemy organization)")
+        print("[1] target center (++central breakthrough,+suppresion,+morale damage)\n[2] target flank (++flanking,+suppresion,+morale damage)\n[3] suppresive fire (+++suppresion,-enemy organization)\n[4] concentrated fire (++morale damage,--enemy organization)")
         Command_num = int(jas.input_checks("", 4, Friendly, Turn_count, Maneuver_check))
         if Subturn_count == 3:
             Subturn_count = 0
         if Command_num == 1:
             Rand_num = random.randint(3, 5)
-            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (
-                    1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
             Friendly.inf_losses = Friendly.player.damage
             Friendly.center -= (Friendly.inf_losses / Friendly.size) * 40
             Friendly.inf -= Friendly.player.damage
@@ -330,8 +307,7 @@ while Skirmish_check == 1:
             Subturn_count += 1
         elif Command_num == 2:
             Rand_num = random.randint(3, 4)
-            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (
-                    1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
             Friendly.inf_losses = Friendly.player.damage
             Friendly.flank -= (Friendly.inf_losses / Friendly.size) * 40
             Friendly.inf -= Friendly.player.damage
@@ -340,8 +316,7 @@ while Skirmish_check == 1:
             Subturn_count += 1
         elif Command_num == 3:
             Rand_num = random.randint(2, 3)
-            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (
-                    1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
             Friendly.inf_losses = Friendly.player.damage
             Friendly.inf -= Friendly.player.damage
             Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 20
@@ -349,8 +324,7 @@ while Skirmish_check == 1:
             Subturn_count += 1
         elif Command_num == 4:
             Rand_num = random.randint(5, 7)
-            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (
-                    1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+            Friendly.player.damage = Friendly.player.arti * (Rand_num) * (1 - (Friendly.player.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
             Friendly.inf_losses = Friendly.player.damage
             Friendly.inf -= Friendly.player.damage
             Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 40
@@ -363,17 +337,14 @@ while Skirmish_check == 1:
         while Subturn_count != 0:
             Subturn_count += 1
             jas.easyprint("SKIRMISH ATTACK",[["COMBINED ARMS HARRASMENT", Subturn_count], ["MORALE: ", Friendly.player.inf_losses],["ORGANISATION: ", Friendly.player.organization], ["POSITION", Friendly.player.defense],["SUPPRESSION: ", Friendly.player.suppresion, 1]])
-            jas.easyprint("BATTLE STATISTICS",
-                          [["INFANTRY: ", Friendly.player.inf], ["INFANTRY LOSSES: ", Friendly.player.inf_losses],
-                           ["CAVALRY: ", Friendly.player.cav], ["CAVALRY LOSSES: ", Friendly.player.cav_losses],
-                           ["ARTILLERY: ", Friendly.player.arti], ["ARTILLERY LOSSES: ", Friendly.player.arti_losses],
-                           ["TOTAL TROOP COUNT: ", Friendly.player.inf + Friendly.player.cav + Friendly.player.arti],
-                           ["TOTAL LOSSES: ",
-                            Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses]])
+            jas.easyprint("BATTLE STATISTICS",[["INFANTRY: ", Friendly.player.inf], ["INFANTRY LOSSES: ", Friendly.player.inf_losses],
+                ["CAVALRY: ", Friendly.player.cav], ["CAVALRY LOSSES: ", Friendly.player.cav_losses],
+                ["ARTILLERY: ", Friendly.player.arti], ["ARTILLERY LOSSES: ", Friendly.player.arti_losses],
+                ["TOTAL TROOP COUNT: ", Friendly.player.inf + Friendly.player.cav + Friendly.player.arti],
+                ["TOTAL LOSSES: ",Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses]])
 
             jas.pwc("Harrasment options", "blue")
-            print(
-                "[1] pick of isolated groups (-enemy_recon,+morale damage)\n[2] raid supply lines (-enemy_position,+morale damage,)\n[3] feignt a charge (+suppresion,+morale damage)\n[4] call off attack")
+            print("[1] pick of isolated groups (-enemy_recon,+morale damage)\n[2] raid supply lines (-enemy_position,+morale damage,)\n[3] feignt a charge (+suppresion,+morale damage)\n[4] call off attack")
             Command_num = int(jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check))
             if Subturn_count == 3:
                 Subturn_count = 0
@@ -381,7 +352,7 @@ while Skirmish_check == 1:
                 Rand_num = random.randint(5, 10)/100
                 Friendly.player.damage = (Friendly.player.inf + Friendly.player.cav) / 8 * (Rand_num) * (
                         1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
-                                                 1 - (Friendly.organization) / 50)
+                        1 - (Friendly.organization) / 50)
                 Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
                 Friendly.inf -= Friendly.inf_losses
                 Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
@@ -391,8 +362,8 @@ while Skirmish_check == 1:
             if Command_num == 2:
                 Rand_num = random.randint(2, 5)/100
                 Friendly.player.damage = (Friendly.player.inf + Friendly.player.cav) / 8 * (Rand_num) * (
-                        1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
-                1 - (Friendly.organization) / 500)
+                    1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
+                    1 - (Friendly.organization) / 500)
                 Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
                 Friendly.inf -= Friendly.inf_losses
                 Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
@@ -404,7 +375,7 @@ while Skirmish_check == 1:
                 Rand_num = random.randint(0, 0)
                 Friendly.player.damage = (Friendly.player.inf + Friendly.player.cav) / 8 * (Rand_num) * (
                         1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
-                                                 1 - (Friendly.organization) / 500)
+                        1 - (Friendly.organization) / 500)
                 Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
                 Friendly.inf -= Friendly.inf_losses
                 Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
