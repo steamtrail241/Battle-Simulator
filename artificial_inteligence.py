@@ -24,6 +24,20 @@ class AI(object):
 		self.simtension = 0
 		self.player = self.friendlyVars()
 		self.seeplayer = self.friendlyVars()
+		# simulated variables
+		self.size1 = 0
+		self.cout1 = 0
+		self.morale1 = 0
+		self.cav1 = 0
+		self.inf1 = 0
+		self.arti1 = 0
+		self.suppresion1 = 0
+		self.organization1 = 0
+		self.defense1 = 0
+		self.position1 = 0
+		self.commands1 = 0
+		self.center1 = 0
+		self.flank1 = 0
 		
 	def originalset(self, max):
 		nf = round(max * 0.32)
@@ -74,6 +88,44 @@ class AI(object):
 				return round(avar)
 	
 	def simp1b(self,Command_num):
+		if Command_num == 1:
+			Rand_num = random.randint(1, 3)
+			self.defense1 += Rand_num
+		# =============================================================================
+		elif Command_num == 2:
+			Rand_num = random.randint(1, 5)
+			self.commands1 += Rand_num - 2
+		# =============================================================================
+		elif Command_num == 3:
+			print("not done")
+			Rand_num = random.randint(1, 3)
+			self.morale += Rand_num * 2
+			self.organization1 += Rand_num - 5
+		# =============================================================================
+		elif Command_num == 4:
+			Rand_num = random.randint(1, 4)
+			self.simtension += 2
+			self.scouting1 += Rand_num
+			if self.scouting1 >20:
+				self.scouting1 = 20
+		# =============================================================================
+		elif Command_num == 5:
+			Rand_num = random.randint(2, 3)
+			self.position1 += Rand_num
+			self.simtension1 += 5
+		# =============================================================================
+		elif Command_num == 6:
+			Rand_num = random.randint(1, 4)
+			# yo rony why didn't the terminal run???
+			self.simtension += 8
+			self.position1 += Rand_num * 2
+			self.morale1 += Rand_num - 5
+		# =============================================================================
+		elif Command_num == 7:
+			Rand_num = random.randint(1, 3)
+			self.morale1 += Rand_num + 1
+	
+	def simp1p(self,Command_num):
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
 			self.defense += Rand_num
