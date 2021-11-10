@@ -1,7 +1,7 @@
 import random
 
 
-class colors():
+class Colors():
 	Black        = "\033[30m"
 	Red          = "\033[31m"
 	Green        = "\033[32m"
@@ -31,7 +31,7 @@ class bc():
 	WHITE   = '\033[47m'
 	RESET   = '\033[49m'
 
-fg = colors()
+fg = Colors()
 bg = bc()
 
 # stands for print with color
