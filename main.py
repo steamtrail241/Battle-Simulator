@@ -1,11 +1,10 @@
 import time, random, asyncio, log
 import Jasons_functions as jas
 import artificial_inteligence as ai
-# from replit import audio
-# import time
-
-# audio.play_file("Main_theme.mp3")
-# time.sleep(10)
+# what is tension?
+# if tension is the thing that breaks the first loop, shouldn't you make the tension break higher?
+# when the AI makes it's move, the tension should increase as well right?
+# therefore the tension break loop statment should be higher
 
 co = jas.fg
 bg = jas.bc()
