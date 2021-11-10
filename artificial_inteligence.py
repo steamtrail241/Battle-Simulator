@@ -21,6 +21,7 @@ class AI(object):
 		self.scouting = 20
 		self.cav_losses = 0
 		self.arti_losses = 0
+		self.simtension = 0
 		self.player = self.friendlyVars()
 		self.seeplayer = self.friendlyVars()
 		
@@ -72,7 +73,7 @@ class AI(object):
 			if avar>0:
 				return round(avar)
 	
-	def simp1(self,Command_num):
+	def simp1b(self,Command_num):
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
 			self.defense += Rand_num
@@ -89,7 +90,7 @@ class AI(object):
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
-			Tension += 2
+			self.simtension += 2
 			self.scouting += Rand_num
 			if self.scouting >20:
 				self.scouting = 20
@@ -97,12 +98,12 @@ class AI(object):
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
 			self.position += Rand_num
-			Tension += 5
+			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
 			# yo rony why didn't the terminal run???
-			Tension += 8
+			self.simtension += 8
 			self.position += Rand_num * 2
 			self.player.morale += Rand_num - 5
 		# =============================================================================
@@ -129,11 +130,6 @@ class AI(object):
 			self.damage = 0
 
 co = ja.fg
-#what we need is for the AI to setup the army with a specific ratio, like 50% inf 20% cav and 30% arti, so it can apply to all army sizes
-# so basicly three values that add up to 100, as a percentage of total army points. So if there was 100 Army points, there would be 50 inf 20 cav and 30 arti, though due to army point values it would actually be 50 inf, 10 cav, and 3 arti
-# so basicly three valuse that add up to 100 but use those as parcentages of the total army points. Yeah, and they add up to 100%
-# gtg do other homework, i'll think about this bye!
-# alright
 
 #with open("main.py", "r+") as a:
 #	data = a.readlines()
