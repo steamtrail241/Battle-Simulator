@@ -7,7 +7,7 @@ import artificial_inteligence as ai
 # audio.play_file("Main_theme.mp3")
 # time.sleep(10)
 
-co = jas.colors()
+co = jas.fg
 bg = jas.bc()
 
 Tension = 0
