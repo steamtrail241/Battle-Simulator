@@ -24,6 +24,7 @@ class AI(object):
 		self.simtension = 0
 		self.player = self.friendlyVars()
 		self.seeplayer = self.friendlyVars()
+		self.seeplayer1 = self.friendlyVars()
 		# simulated variables
 		self.size1 = 0
 		self.cout1 = 0
@@ -40,6 +41,7 @@ class AI(object):
 		self.flank1 = 0
 		
 	def originalset(self, max):
+		"""set inf, arti, and cav to random variables"""
 		nf = round(max * 0.32)
 		ten = round(max-(nf*3))
 		smth = 0
@@ -52,9 +54,20 @@ class AI(object):
 		print(self.cav)
 		print(self.inf)
 		print(self.arti)
-	
-	def setrandom(self):
-		self.scouting = random.randint(1,20)
+
+	def predict(self):
+		self.seeplayer1.count = self.seeplayer.count
+		self.seeplayer1.morale = self.seeplayer.morale
+		self.seeplayer1.suppresion = self.seeplayer.suppresion
+		self.seeplayer1.organization = self.seeplayer.organization
+		self.seeplayer1.cav = self.seeplayer.cav
+		self.seeplayer1.inf = self.seeplayer.inf
+		self.seeplayer1.arti = self.seeplayer.arti
+		self.seeplayer1.scouting = self.seeplayer.scouting
+		self.seeplayer1.position = self.seeplayer.position
+		self.seeplayer1.defense = self.seeplayer.defense
+		self.seeplayer1.commands = self.seeplayer.commands
+		self.seeplayer1.damage = self.seeplayer.damage
 
 	def setvars(self):
 		self.seeplayer.count = self.afunc(self.player.count, self.scouting)
@@ -128,40 +141,40 @@ class AI(object):
 	def simp1p(self,Command_num):
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
-			self.defense += Rand_num
+			self.seeplayer1.defense += Rand_num
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
-			self.commands += Rand_num - 2
+			self.seeplayer1.commands += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
 			print("not done")
 			Rand_num = random.randint(1, 3)
-			self.morale += Rand_num * 2
-			self.organization += Rand_num - 5
+			self.seeplayer1.morale += Rand_num * 2
+			self.seeplayer1.organization += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			self.scouting += Rand_num
-			if self.scouting >20:
-				self.scouting = 20
+			self.seeplayer1.scouting += Rand_num
+			if self.seeplayer1.scouting >20:
+				self.seeplayer1.scouting = 20
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
-			self.position += Rand_num
+			self.seeplayer1.position += Rand_num
 			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
 			# yo rony why didn't the terminal run???
 			self.simtension += 8
-			self.position += Rand_num * 2
-			self.player.morale += Rand_num - 5
+			self.seeplayer1.position += Rand_num * 2
+			self.seeplayer1.morale += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
-			self.morale += Rand_num + 1
+			self.seeplayer1.morale += Rand_num + 1
 	
 	class friendlyVars():
 		def __init__(self):
