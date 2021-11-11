@@ -27,7 +27,7 @@ class AI(object):
 		self.seeplayer1 = self.friendlyVars()
 		# simulated variables
 		self.size1 = 0
-		self.cout1 = 0
+		self.count1 = 0
 		self.morale1 = 0
 		self.cav1 = 0
 		self.inf1 = 0
@@ -55,7 +55,7 @@ class AI(object):
 		print(self.inf)
 		print(self.arti)
 
-	def predict(self):
+	def reset_seeplayer1(self):
 		self.seeplayer1.count = self.seeplayer.count
 		self.seeplayer1.morale = self.seeplayer.morale
 		self.seeplayer1.suppresion = self.seeplayer.suppresion
@@ -68,6 +68,66 @@ class AI(object):
 		self.seeplayer1.defense = self.seeplayer.defense
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
+
+
+	def predict(self, simpart):
+		"""simpart can be three options:
+		1 = setup phase
+		2 = setup and next phase
+		"""
+		highestnum=0
+		path=[]
+		self.reset_seeplayer1()		
+		for i in range(1,8):
+			self.simp1b(i)
+			for i1 in range(1,8):
+				self.simp1p(i1)
+				for i2 in range(1,8):
+					self.simp1b(i2)
+					for i3 in range(1,8):
+						self.simp1p(i3)
+						thistime = 0
+						cheak = False
+						if self.count1>=self.seeplayer1.count:
+							thistime += 1
+							cheak = True
+						if self.morale1>=self.seeplayer1.morale:
+							thistime += 1
+							cheak = True
+						if self.cav1>=self.seeplayer1.cav:
+							thistime+=1
+							cheak = True
+						if self.inf1>=self.seeplayer1.inf:
+							thistime+=1
+							cheak = True
+						if self.arti1>=self.seeplayer1.arti:
+							thistime+=1
+							cheak = True
+						if self.suppresion1>=self.seeplayer1.suppresion:
+							thistime+=1
+							cheak = True
+						if self.organization1>=self.seeplayer1.organization:
+							thistime+=1
+							cheak = True
+						if self.defense1>=self.seeplayer1.defense:
+							thistime+=1
+							cheak = True
+						if self.position1>=self.seeplayer1.position:
+							thistime+=1
+							cheak = True
+						if self.commands1>=self.seeplayer1.commands:
+							thistime+=1
+							cheak = True
+						if cheak is False:
+							print("nothing was bigger")
+						self.reset_seeplayer1()
+						if thistime>highestnum:
+							highestnum = thistime
+							path=[i,i1,i2,i3]
+							print(thistime)
+		print(path)
+
+
 
 	def setvars(self):
 		self.seeplayer.count = self.afunc(self.player.count, self.scouting)
@@ -118,14 +178,14 @@ class AI(object):
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			self.scouting1 += Rand_num
-			if self.scouting1 >20:
-				self.scouting1 = 20
+			# self.scouting1 += Rand_num
+			#if self.scouting1 >20:
+			#	self.scouting1 = 20
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
 			self.position1 += Rand_num
-			self.simtension1 += 5
+			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
@@ -182,11 +242,11 @@ class AI(object):
 			self.morale = 5
 			self.suppresion = 0
 			self.organization = 5
-			self.cav = 0
+			self.cav = 200
 			self.cav_losses = 0
-			self.inf = 0
+			self.inf = 100
 			self.inf_losses = 0
-			self.arti = 0
+			self.arti = 200
 			self.arti_losses = 0
 			self.scouting = 5
 			self.position = 5
