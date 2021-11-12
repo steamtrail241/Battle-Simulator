@@ -1,6 +1,6 @@
 import Jasons_functions as ja
 import log as lo
-import random
+import random, time
 
 class AI(object):
 	def __init__(self):
@@ -18,7 +18,7 @@ class AI(object):
 		self.center = 0
 		self.flank = 0
 		self.inf_losses = 0
-		self.scouting = 20
+		self.scouting = 0
 		self.cav_losses = 0
 		self.arti_losses = 0
 		self.simtension = 0
@@ -75,6 +75,7 @@ class AI(object):
 		1 = setup phase
 		2 = setup and next phase
 		"""
+		a = time.time()
 		highestnum=0
 		path=[]
 		self.reset_seeplayer1()		
@@ -86,48 +87,271 @@ class AI(object):
 					self.simp1b(i2)
 					for i3 in range(1,8):
 						self.simp1p(i3)
-						thistime = 0
-						cheak = False
-						if self.count1>=self.seeplayer1.count:
-							thistime += 1
-							cheak = True
-						if self.morale1>=self.seeplayer1.morale:
-							thistime += 1
-							cheak = True
-						if self.cav1>=self.seeplayer1.cav:
-							thistime+=1
-							cheak = True
-						if self.inf1>=self.seeplayer1.inf:
-							thistime+=1
-							cheak = True
-						if self.arti1>=self.seeplayer1.arti:
-							thistime+=1
-							cheak = True
-						if self.suppresion1>=self.seeplayer1.suppresion:
-							thistime+=1
-							cheak = True
-						if self.organization1>=self.seeplayer1.organization:
-							thistime+=1
-							cheak = True
-						if self.defense1>=self.seeplayer1.defense:
-							thistime+=1
-							cheak = True
-						if self.position1>=self.seeplayer1.position:
-							thistime+=1
-							cheak = True
-						if self.commands1>=self.seeplayer1.commands:
-							thistime+=1
-							cheak = True
-						if cheak is False:
-							print("nothing was bigger")
-						self.reset_seeplayer1()
-						if thistime>highestnum:
-							highestnum = thistime
-							path=[i,i1,i2,i3]
-							print(thistime)
+						for i4 in range(1,8):
+							self.simp1b(i4)
+							thistime = 0
+							cheak = False
+							if self.simtension<60:
+								if self.count1>=self.seeplayer1.count:
+									thistime += 1
+									cheak = True
+								if self.morale1>=self.seeplayer1.morale:
+									thistime += 1
+									cheak = True
+								if self.cav1>=self.seeplayer1.cav:
+									thistime+=1
+									cheak = True
+								if self.inf1>=self.seeplayer1.inf:
+									thistime+=1
+									cheak = True
+								if self.arti1>=self.seeplayer1.arti:
+									thistime+=1
+									cheak = True
+								if self.suppresion1>=self.seeplayer1.suppresion:
+									thistime+=1
+									cheak = True
+								if self.organization1>=self.seeplayer1.organization:
+									thistime+=1
+									cheak = True
+								if self.defense1>=self.seeplayer1.defense:
+									thistime+=1
+									cheak = True
+								if self.position1>=self.seeplayer1.position:
+									thistime+=1
+									cheak = True
+								if self.commands1>=self.seeplayer1.commands:
+									thistime+=1
+									cheak = True
+								if cheak is False:
+									print("nothing was bigger")
+								self.simtension = 0
+								if thistime>highestnum:
+									highestnum = thistime
+									path=[i,i2,i4]
+									print(thistime)
+									print(self.seeplayer1.count)
+									print(self.seeplayer1.morale)
+									print(self.seeplayer1.suppresion)
+									print(self.seeplayer1.organization)
+									print(self.seeplayer1.cav)
+									print(self.seeplayer1.inf)
+									print(self.seeplayer1.arti)
+									print(self.seeplayer1.scouting)
+									print(self.seeplayer1.position)
+									print(self.seeplayer1.defense)
+									print(self.seeplayer1.commands)
+									print(self.seeplayer1.damage)
+									print("=======")
+									print(self.size1)
+									print(self.count1)
+									print(self.morale1)
+									print(self.cav1)
+									print(self.inf1)
+									print(self.arti1)
+									print(self.suppresion1)
+									print(self.organization1)
+									print(self.defense1)
+									print(self.position1)
+									print(self.commands1)
+									print(self.center1)
+									print(self.flank1)
+								self.reset_seeplayer1()
+							else:
+								break
+						
+		if self.simtension >= 60:
+			pass
 		print(path)
+		print(time.time()-a)
 
 
+	def sim2b(self, Command_num):
+		self.simtension += random.randint(1, 3)
+		if self.simtension > 30:
+			print(self.simtension)
+			Maneuver_check = 0
+			Skirmish_check = 0
+			Battle_check = 1
+		if Army_terrain == 1:
+			if Command_num == 1:
+				Rand_num = random.randint(2, 3)
+				self.seeplayer1.organization += Rand_num * 2
+			elif Command_num == 2:
+				Rand_num = random.randint(1, 5)
+				self.seeplayer1.command = Rand_num - 2
+			elif Command_num == 3:
+				Subturn_count = 1
+				Subturn_count += 1
+			Command_num = int(jas.input_checks("", 4, Friendly, Turn_count, Maneuver_check))
+			if Subturn_count == 3:
+				Subturn_count = 0
+			if Command_num == 1:
+				Rand_num = random.randint(3, 5)
+				self.seeplayer1.damage = self.seeplayer1.arti * (Rand_num) * (1 - (self.seeplayer1.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+				Friendly.inf_losses = self.seeplayer1.damage
+				Friendly.center -= (Friendly.inf_losses / Friendly.size) * 40
+				Friendly.inf -= self.seeplayer1.damage
+				Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 20
+				Friendly.suppresion += (self.seeplayer1.damage / Friendly.size) * 40
+				Subturn_count += 1
+			elif Command_num == 2:
+				Rand_num = random.randint(3, 4)
+				self.seeplayer1.damage = self.seeplayer1.arti * (Rand_num) * (1 - (self.seeplayer1.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+				Friendly.inf_losses = self.seeplayer1.damage
+				Friendly.flank -= (Friendly.inf_losses / Friendly.size) * 40
+				Friendly.inf -= Friendly.player.damage
+				Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 20
+				Friendly.suppresion += (self.seeplayer1.damage / Friendly.size) * 40
+				Subturn_count += 1
+			elif Command_num == 3:
+				Rand_num = random.randint(2, 3)
+				self.seeplayer1.damage = self.seeplayer1.arti * (Rand_num) * (1 - (self.seeplayer1.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+				Friendly.inf_losses = self.seeplayer1.damage
+				Friendly.inf -= self.seeplayer1.damage
+				Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 20
+				Friendly.suppresion += (self.seeplayer1.damage / Friendly.size) * 100
+				Subturn_count += 1
+			elif Command_num == 4:
+				Rand_num = random.randint(5, 7)
+				self.seeplayer1.damage = self.seeplayer1.arti * (Rand_num) * (1 - (self.seeplayer1.suppresion) / 100) * (1 - (Friendly.defense) / 50) * (1 - (Friendly.organization) / 100)
+				Friendly.inf_losses = self.seeplayer1.damage
+				Friendly.inf -= self.seeplayer1.damage
+				Friendly.morale -= (Friendly.inf_losses / Friendly.size) * 40
+				Friendly.suppresion += (self.seeplayer1.damage / Friendly.size) / 40
+				Subturn_count += 1
+			elif Command_num == 5:
+				Subturn_count = 0
+		elif Command_num == 4:
+			Subturn_count = 1
+			while Subturn_count != 0:
+				Subturn_count += 1
+				jas.easyprint("SKIRMISH ATTACK",[["COMBINED ARMS HARRASMENT", Subturn_count], ["MORALE: ", self.seeplayer1.inf_losses],["ORGANISATION: ", self.seeplayer1.organization], ["POSITION", self.seeplayer1.defense],["SUPPRESSION: ", self.seeplayer1.suppresion, 1]])
+				jas.easyprint("BATTLE STATISTICS",[["INFANTRY: ", self.seeplayer1.inf], ["INFANTRY LOSSES: ", self.seeplayer1.inf_losses],
+					["CAVALRY: ", self.seeplayer1.cav], ["CAVALRY LOSSES: ", self.seeplayer1.cav_losses],
+					["ARTILLERY: ", self.seeplayer1.arti], ["ARTILLERY LOSSES: ", self.seeplayer1.arti_losses],
+					["TOTAL TROOP COUNT: ", self.seeplayer1.inf + self.seeplayer1.cav + self.seeplayer1.arti],
+					["TOTAL LOSSES: ",self.seeplayer1.inf_losses + self.seeplayer1.cav_losses + self.seeplayer1.arti_losses]])
+
+				jas.pwc("Harrasment options", "blue")
+				print("[1] pick of isolated groups (-enemy_recon,+morale damage)\n[2] raid supply lines (-enemy_position,+morale damage,)\n[3] feignt a charge (+suppresion,+morale damage)\n[4] call off attack")
+				Command_num = int(jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check))
+				if Subturn_count == 3:
+					Subturn_count = 0
+				if Command_num == 1:
+					Rand_num = random.randint(5, 10)/100
+					self.seeplayer1.damage = (self.seeplayer1.inf + self.seeplayer1.cav) / 8 * (Rand_num) * (
+							1 - (self.seeplayer1.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
+							1 - (Friendly.organization) / 50)
+					Friendly.inf_losses = self.seeplayer1.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+					Friendly.inf -= Friendly.inf_losses
+					Friendly.cav_losses = self.seeplayer1.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+					Friendly.cav -= Friendly.cav_losses
+					Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 50
+					Friendly.suppresion += (self.seeplayer1.damage / Friendly.size) * 50
+				if Command_num == 2:
+					Rand_num = random.randint(2, 5)/100
+					self.seeplayer1.damage = (self.seeplayer1.inf + self.seeplayer1.cav) / 8 * (Rand_num) * (
+						1 - (self.seeplayer1.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
+						1 - (Friendly.organization) / 500)
+					Friendly.inf_losses = self.seeplayer1.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+					Friendly.inf -= Friendly.inf_losses
+					Friendly.cav_losses = self.seeplayer1.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+					Friendly.cav -= Friendly.cav_losses
+					Friendly.morale -= 3 + ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 50
+					Friendly.suppresion += 1 + (self.seeplayer1.damage / Friendly.size) * 50
+					Friendly.position -= 2
+				if Command_num == 3:
+					Rand_num = random.randint(0, 0)
+					Friendly.player.damage = (Friendly.player.inf + Friendly.player.cav) / 8 * (Rand_num) * (
+							1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
+							1 - (Friendly.organization) / 500)
+					Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+					Friendly.inf -= Friendly.inf_losses
+					Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+					Friendly.cav -= Friendly.cav_losses
+					Friendly.morale -= 6 + ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 50
+					Friendly.suppresion += 1 + (Friendly.player.damage / Friendly.size) * 50
+				elif Command_num == 4:
+					Subturn_count = 0
+		elif Command_num == 5:
+			Subturn_count = 1
+			while Subturn_count != 0:
+				Subturn_count += 1
+				jas.easyprint("SKIRMISH ATTACK",
+							[["CAVALRY HARRASMENT, TURN: ", Subturn_count], ["MORALE: ", Friendly.player.inf_losses],
+							["ORGANISATION: ", Friendly.player.organization], ["POSITION: ", Friendly.player.defense],
+							["SUPPRESSION: ", Friendly.player.suppresion, 1]])
+				jas.easyprint("BATTLE STATISTICS",
+							[["INFANTRY: ", Friendly.player.inf], ["INFANTRY LOSSES: ", Friendly.player.inf_losses],
+							["CAVALRY: ", Friendly.player.cav], ["CAVALRY LOSSES: ", Friendly.player.cav_losses],
+							["ARTILLERY: ", Friendly.player.arti], ["ARTILLERY LOSSES: ", Friendly.player.arti_losses],
+							["TOTAL TROOP COUNT: ", Friendly.player.inf + Friendly.player.cav + Friendly.player.arti],
+							["TOTAL LOSSES: ",
+								Friendly.player.inf_losses + Friendly.player.cav_losses + Friendly.player.arti_losses]])
+				jas.pwc("Harrasment options", "blue")
+				print(
+					"[1] pick of isolated groups (-enemy_recon,+morale damage)\n[2] raid supply lines (-enemy_position,+morale damage,)\n[3] feignt a charge (+suppresion,+morale damage)\n[4] call off attack")
+				Command_num = int(jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check))
+				if Subturn_count == 3:
+					Subturn_count = 0
+				if Command_num == 1:
+					Rand_num = random.randint(0.10, 0.20)
+					Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
+							1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
+													1 - (Friendly.organization) / 50)
+					Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+					Friendly.inf -= Friendly.inf_losses
+					Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+					Friendly.cav -= Friendly.cav_losses
+					Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 100
+					Friendly.suppresion += (Friendly.player.damage / Friendly.size) * 25
+				if Command_num == 2:
+					Rand_num = random.randint(0.05, 0.10)
+					Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
+							1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
+													1 - (Friendly.organization) / 500)
+					Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+					Friendly.inf -= Friendly.inf_losses
+					Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+					Friendly.cav -= Friendly.cav_losses
+					Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 200
+					Friendly.suppresion += (Friendly.player.damage / Friendly.size) * 10
+				if Command_num == 3:
+					Rand_num = random.randint(0.5, 0.8)
+					Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
+							1 - (Friendly.player.suppresion) / 500) * (1 - (Friendly.defense) / 500) * (
+													1 - (Friendly.organization) / 500)
+					Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 200
+					Friendly.suppresion += (Friendly.player.damage / Friendly.size) * 10
+				if Command_num == 4:
+					Subturn_count = 0
+				pass
+		elif Command_num == 6:
+			Rand_num = random.randint(1, 4)
+			Tension += 8
+			Friendly.player.position += Rand_num + 2
+			Friendly.player.defensse += Rand_num + 2
+			if Rand_num == 1:
+				jas.pwc("Your army is delayed and begraggled by bad conditions, limited work is done to secure positions",
+						co.Red)
+			if Rand_num == 2:
+				jas.pwc(
+					"Your army arrives at the forward positions, though interference denies them the opportunity to fully fortify",
+					co.Yellow)
+			if Rand_num == 3:
+				jas.pwc("Your army obliges with the march, fortifying themselves in advanced strongpoints", co.Green)
+			if Rand_num == 4:
+				jas.pwc("Your army marches forward, entrenching themselves deep against enemy lines", co.Green)
+		elif Command_num == 7:
+			Rand_num = random.randint(1, 3)
+			Friendly.player.morale += Rand_num * 2
+			if Rand_num == 1:
+				jas.pwc("You perform a speech to your troops, it had a mediocre impact on the troops", co.Red)
+			if Rand_num == 2:
+				jas.pwc("You perform a speech to your troops, reinvigorating your army", co.yellow)
+			if Rand_num == 3:
+				jas.pwc("You perform a brilliant speech to your troops, your army becomes estatic and determined", co.Green)
+			pass
 
 	def setvars(self):
 		self.seeplayer.count = self.afunc(self.player.count, self.scouting)
@@ -170,7 +394,6 @@ class AI(object):
 			self.commands1 += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
-			print("not done")
 			Rand_num = random.randint(1, 3)
 			self.morale += Rand_num * 2
 			self.organization1 += Rand_num - 5
@@ -208,7 +431,6 @@ class AI(object):
 			self.seeplayer1.commands += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
-			print("not done")
 			Rand_num = random.randint(1, 3)
 			self.seeplayer1.morale += Rand_num * 2
 			self.seeplayer1.organization += Rand_num - 5
@@ -242,16 +464,16 @@ class AI(object):
 			self.morale = 5
 			self.suppresion = 0
 			self.organization = 5
-			self.cav = 200
+			self.cav = 0
 			self.cav_losses = 0
-			self.inf = 100
+			self.inf = 0
 			self.inf_losses = 0
-			self.arti = 200
+			self.arti = 0
 			self.arti_losses = 0
-			self.scouting = 5
-			self.position = 5
-			self.defense = 5
-			self.commands = 3
+			self.scouting = 0
+			self.position = 0
+			self.defense = 0
+			self.commands = 0
 			self.damage = 0
 
 co = ja.fg
