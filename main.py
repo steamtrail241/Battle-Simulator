@@ -1,5 +1,5 @@
 import time, random, asyncio, log
-import Jasons_functions as jas
+import functions as jas
 import artificial_inteligence as ai
 # what is tension?
 # if tension is the thing that breaks the first loop, shouldn't you make the tension break higher?
