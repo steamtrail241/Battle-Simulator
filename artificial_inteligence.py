@@ -1,4 +1,4 @@
-import Jasons_functions as ja
+import functions as ja
 import log as lo
 import random, time
 
