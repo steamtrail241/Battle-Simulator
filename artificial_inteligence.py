@@ -69,101 +69,28 @@ class AI(object):
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
 
-
-	def predict(self, simpart):
-		"""simpart can be three options:6
-		1 = setup phase
-		2 = setup and next phase
-		"""
-		a = time.time()
-		highestnum=0
-		path=[]
-		self.reset_seeplayer1()		
-		for i in range(1,8):
-			self.simp1b(i)
-			for i1 in range(1,8):
-				self.simp1p(i1)
-				for i2 in range(1,8):
-					self.simp1b(i2)
-					for i3 in range(1,8):
-						self.simp1p(i3)
-						for i4 in range(1,8):
-							self.simp1b(i4)
-							thistime = 0
-							cheak = False
-							if self.simtension<60:
-								if self.count1>=self.seeplayer1.count:
-									thistime += 1
-									cheak = True
-								if self.morale1>=self.seeplayer1.morale:
-									thistime += 1
-									cheak = True
-								if self.cav1>=self.seeplayer1.cav:
-									thistime+=1
-									cheak = True
-								if self.inf1>=self.seeplayer1.inf:
-									thistime+=1
-									cheak = True
-								if self.arti1>=self.seeplayer1.arti:
-									thistime+=1
-									cheak = True
-								if self.suppresion1>=self.seeplayer1.suppresion:
-									thistime+=1
-									cheak = True
-								if self.organization1>=self.seeplayer1.organization:
-									thistime+=1
-									cheak = True
-								if self.defense1>=self.seeplayer1.defense:
-									thistime+=1
-									cheak = True
-								if self.position1>=self.seeplayer1.position:
-									thistime+=1
-									cheak = True
-								if self.commands1>=self.seeplayer1.commands:
-									thistime+=1
-									cheak = True
-								if cheak is False:
-									print("nothing was bigger")
-								self.simtension = 0
-								if thistime>highestnum:
-									highestnum = thistime
-									path=[i,i2,i4]
-									print(thistime)
-									print(self.seeplayer1.count)
-									print(self.seeplayer1.morale)
-									print(self.seeplayer1.suppresion)
-									print(self.seeplayer1.organization)
-									print(self.seeplayer1.cav)
-									print(self.seeplayer1.inf)
-									print(self.seeplayer1.arti)
-									print(self.seeplayer1.scouting)
-									print(self.seeplayer1.position)
-									print(self.seeplayer1.defense)
-									print(self.seeplayer1.commands)
-									print(self.seeplayer1.damage)
-									print("=======")
-									print(self.size1)
-									print(self.count1)
-									print(self.morale1)
-									print(self.cav1)
-									print(self.inf1)
-									print(self.arti1)
-									print(self.suppresion1)
-									print(self.organization1)
-									print(self.defense1)
-									print(self.position1)
-									print(self.commands1)
-									print(self.center1)
-									print(self.flank1)
-								self.reset_seeplayer1()
-							else:
-								break
-						
-		if self.simtension >= 60:
+	def predict(self, simpart, deapth, player):						
+		if deapth == 0:
 			pass
-		print(path)
-		print(time.time()-a)
+		elif player:
+			if simpart == 5:
+				if self.simtension<=60:
+					alist = self.returncurlist()
+	
+	def returncurlist(self):
+		return [self.seeplayer1.count, self.seeplayer1.morale, self.seeplayer1.suppresion, self.seeplayer1.organization, self.seeplayer1.cav, self.seeplayer1.inf, self.seeplayer1.arti, self.seeplayer1.scouting, self.seeplayer1.position, self.seeplayer1.defense, self.seeplayer1.commands, self.seeplayer1.damage]
 
+	def min(val1, val2):
+		if val1 > val2:
+			return val1
+		if val2>val1:
+			return val2
+	
+	def min(val1, val2):
+		if val1<val2:
+			return val1
+		else:
+			return val2
 
 	def sim2b(self, Command_num):
 		self.simtension += random.randint(1, 3)
