@@ -491,5 +491,7 @@ while Battle_check == 1:
                    ["ARTILLERY: ", Friendly.arti, 2], ["ARTILLERY LOSSES: ", Friendly.arti_losses, 2],
                    ["TOTAL TROOP COUNT: ", Friendly.inf + Friendly.cav + Friendly.arti, 2],
                    ["TOTAL LOSSES: ", Friendly.inf_losses + Friendly.cav_losses + Friendly.arti_losses, 2]])
+    jas.pwc("Flat Terrain Maneuvers\n", "blue")
+    jas.pwc("[1] form square formation (+++organization, --suppresion)\n[2] bark orders from the front (+command)\n[3] perform artillery barrage (++enemysuppresion,-enemy organization,ENGAGE IN RANGED ATTACK)\n[4] perform infantry charge (ENGAGE IN CHARGE ATTACK)\n[5] perform a cavalry charge (-enemy organisation,-enemy morale,-enemy position,ENGAGE IN CHARGE ATTACK)\n[6] perform flanking maneuver ([prerequesite: Position > Enemy Position by 10], --enemy organisation, --enemy morale, --enemy position, +flanking)\n[7] perform a rousing speech (++morale)\n[8] attempt a retreat","pink")
 
     Turn_count += 1
