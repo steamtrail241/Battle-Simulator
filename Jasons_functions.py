@@ -63,7 +63,7 @@ def dmgEffect(damage, moralval, orgval, suprval, inf_num, cav_num, arti_num, ene
   infval = inf_num/val1
   cavval = cav_num/val1
   artival = arti_num/val1
-  return (damage*moralval), (damage*orgval), (damage*suprval), (damage*infval), (damage*cavval), (damage*artival)
+  return [(damage*moralval), (damage*orgval), (damage*suprval), (damage*infval), (damage*cavval), (damage*artival)]
 
 def recon(stringinput, recon, subj_var):
 	val1 = random.randint(1,5)/5

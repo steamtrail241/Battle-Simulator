@@ -71,7 +71,7 @@ class AI(object):
 
 
 	def predict(self, simpart):
-		"""simpart can be three options:
+		"""simpart can be three options:6
 		1 = setup phase
 		2 = setup and next phase
 		"""
