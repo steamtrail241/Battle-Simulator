@@ -7,3 +7,4 @@ ai.player.cav = 200
 ai.originalset(500)
 
 ai.predict(None, 7, 3, None, player=True)
+print("Ronys computer is an idiot")
