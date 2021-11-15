@@ -47,23 +47,6 @@ def pwc(words, color, endtf=False):
 # ============================================================================
 # I do not know your funny words, how do I turn this into something typeable so that my code doesn't have an aneurysm?
 # ya know whats funny about this, you've written so much code and i've seen your write random.randint() with floats inside BUT THE CODE NEVER GO THERE BECAUSE OF CONSTAN ERRIRS
-# CALCULATION FOR COMBAT
-def damage(base, suppresion_effect, defense_effect, organization_effect, suppresion, defense, organization):
-  suppresion_effect /= 100
-  defense_effect /= 100
-  organization_effect /= 100
-  return (base - suppresion*suppresion_effect - defense*defense_effect - organization*organization_effect)
-
-def dmgEffect(damage, moralval, orgval, suprval, inf_num, cav_num, arti_num, enemy_size):
-  moralval /= enemy_size
-  orgval /= enemy_size
-  suprval /= enemy_size
-  val1 = inf_num + cav_num + arti_num
-  infval = inf_num/val1
-  cavval = cav_num/val1
-  artival = arti_num/val1
-  return (damage*moralval), (damage*orgval), (damage*suprval), (damage*infval), (damage*cavval), (damage*artival)
-
 def recon(stringinput, recon, subj_var):
 	val1 = random.randint(1,5)/5
 	val2 = 20 - recon

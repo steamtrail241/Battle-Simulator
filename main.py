@@ -20,6 +20,11 @@ jas.pwc("type '.stat help' for information", co.Cyan)
 print("Shaan is a cool dude")
 print("Shann is a cool dude!!!!")
 print("however,\nRony is not a cool dude.")
+<<<<<<< HEAD
+=======
+print("In the end we know that Jason carried this project ~ Shivam")
+# this is a random comment
+>>>>>>> 8f03a308b8ef65f825c5de2342da0e3e6b681c57
 # =============================================================================
 global Friendly
 Friendly = ai.AI()
