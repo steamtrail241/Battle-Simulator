@@ -1,6 +1,9 @@
 # Battle-Simulator
-In this game, you get to command an army and fight against different levels of AI.
+Ready up commander! The enemy is on our footsteps!
+From the rolling hills too the boggy swamps, rout the enemy and make them pay!
+Amongst the shattering sounds of barrage, amidst the stalwart formations of musketmen, or atop a mount charging with the cuirassiers, take command, and see it to the end.
 
-we have five maps and four difficulties
+Good luck commander, and may god be on our side.
 
-I hope you have fun!
+
+
