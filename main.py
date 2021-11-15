@@ -21,6 +21,7 @@ print("Shaan is a cool dude")
 print("Shann is a cool dude!!!!")
 print("however,\nRony is not a cool dude.")
 print("In the end we know that Jason carried this project ~ Shivam")
+# this is a random comment
 # =============================================================================
 global Friendly
 Friendly = ai.AI()
