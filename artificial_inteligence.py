@@ -69,24 +69,50 @@ class AI(object):
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
 
-	def predict(self, simpart, deapth, player):						
+	def predict(self, thati, simpart, deapth, thelist, player=False):
 		if deapth == 0:
-			pass
+			return random.randint(1,100)
 		elif player:
-			if simpart == 5:
+			if simpart == 7:
 				if self.simtension<=60:
-					alist = self.returncurlist()
-	
-	def returncurlist(self):
-		return [self.seeplayer1.count, self.seeplayer1.morale, self.seeplayer1.suppresion, self.seeplayer1.organization, self.seeplayer1.cav, self.seeplayer1.inf, self.seeplayer1.arti, self.seeplayer1.scouting, self.seeplayer1.position, self.seeplayer1.defense, self.seeplayer1.commands, self.seeplayer1.damage]
+					self.simp1b(thati)
+					self.simtension = 0
+					alist = [self.seeplayer1.count, self.seeplayer1.morale, self.seeplayer1.suppresion, self.seeplayer1.organization, self.seeplayer1.cav, self.seeplayer1.inf, self.seeplayer1.arti, self.seeplayer1.scouting, self.seeplayer1.position, self.seeplayer1.defense, self.seeplayer1.commands, self.seeplayer1.damage]
+					outcomes = []
+					for i in range(1,8):
+						print(str(i)+" "+str(deapth)+" bot move")
+						outcomes.append(self.predict(i, 7, deapth-1, alist))
+					return int(self.min(outcomes))
 
-	def min(val1, val2):
-		if val1 > val2:
-			return val1
-		if val2>val1:
-			return val2
+				else:
+					self.simtension = 0
+					print("on to second part!")
+			else:
+				print("something went whong with sim part")
+		else:
+			if simpart == 7:
+				if self.simtension<=60:
+					self.simp1p(thati)
+					self.simtension = 0
+					alist = [self.size1, self.count1, self.morale1, self.cav1, self.inf1, self.arti1, self.suppresion1, self.organization1, self.defense1, self.position1, self.commands1, self.center1, self.flank]
+					outcomes = []
+					for i in range(1,8):
+						print(str(i)+" "+str(deapth))
+						outcomes.append(self.predict(i, 7, deapth-1, alist, player=True))
+						print(outcomes)
+					a = self.min(outcomes)
+					return a
+
+
+	def min(self, the_list):
+		smollest = 100
+		for i in range(3):
+			for v in the_list:
+				if v<smollest:
+					v = smollest
+		return smollest
 	
-	def min(val1, val2):
+	def man(self, val1, val2):
 		if val1<val2:
 			return val1
 		else:
@@ -416,3 +442,5 @@ co = ja.fg
 #	if "if " in line:
 #		print(line)
 #		print(a)
+for i in range(1,8):
+	print(i)
