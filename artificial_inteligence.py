@@ -26,7 +26,7 @@ class AI(object):
 		self.seeplayer = self.friendlyVars()
 		self.seeplayer1 = self.friendlyVars()
 		# simulated variables
-		self.size1 = 0
+		# self.size1 = 0
 		self.count1 = 0
 		self.morale1 = 0
 		self.cav1 = 0
@@ -37,8 +37,8 @@ class AI(object):
 		self.defense1 = 0
 		self.position1 = 0
 		self.commands1 = 0
-		self.center1 = 0
-		self.flank1 = 0
+		# self.center1 = 0
+		# self.flank1 = 0
 		
 	def originalset(self, max):
 		"""set inf, arti, and cav to random variables"""
@@ -63,11 +63,11 @@ class AI(object):
 		self.seeplayer1.cav = self.seeplayer.cav
 		self.seeplayer1.inf = self.seeplayer.inf
 		self.seeplayer1.arti = self.seeplayer.arti
-		self.seeplayer1.scouting = self.seeplayer.scouting
+		# self.seeplayer1.scouting = self.seeplayer.scouting
 		self.seeplayer1.position = self.seeplayer.position
 		self.seeplayer1.defense = self.seeplayer.defense
 		self.seeplayer1.commands = self.seeplayer.commands
-		self.seeplayer1.damage = self.seeplayer.damage
+		# self.seeplayer1.damage = self.seeplayer.damage
 
 	def predict(self, thati, simpart, deapth, thelist, player=False):
 		if deapth == 0:
@@ -77,8 +77,7 @@ class AI(object):
 		elif player:
 			if simpart == 7:
 				if self.simtension<=60:
-					self.simp1b(thati)
-					alist = [self.seeplayer1.count, self.seeplayer1.morale, self.seeplayer1.suppresion, self.seeplayer1.organization, self.seeplayer1.cav, self.seeplayer1.inf, self.seeplayer1.arti, self.seeplayer1.scouting, self.seeplayer1.position, self.seeplayer1.defense, self.seeplayer1.commands, self.seeplayer1.damage]
+					alist = self.simp1b(thati)
 					outcomes = []
 					for i in range(1,8):
 						print(str(i)+" "+str(deapth)+" bot move")
@@ -335,19 +334,32 @@ class AI(object):
 		lo.ws("What AI sees", [self.seeplayer.count, self.seeplayer.morale, self.seeplayer.suppresion, self.seeplayer.organization, self.seeplayer.cav, self.seeplayer.inf, self.seeplayer.arti, self.seeplayer.scouting, self.seeplayer.position, self.seeplayer.defense, self.seeplayer.commands, self.seeplayer.damage])
 		lo.ws("AI scouting", [self.scouting])
 
-	def simp1b(self,Command_num):
+	def simp1b(self,Command_num, thelist):
+		# list index repersent
+		# 0 : count
+		# 1 : morale
+		# 2 : supresion
+		# 3 : organization
+		# 4 : cav
+		# 5 : inf
+		# 6 : arti
+		# 7 : scouting
+		# 8 : position
+		# 9 : defense
+		# 10: commands
+		# 11: damage
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
-			self.defense1 += Rand_num
+			thelist[9] += Rand_num
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
-			self.commands1 += Rand_num - 2
+			thelist[10] += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
 			self.morale += Rand_num * 2
-			self.organization1 += Rand_num - 5
+			thelist[3] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
@@ -358,19 +370,20 @@ class AI(object):
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
-			self.position1 += Rand_num
+			thelist[8] += Rand_num
 			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
 			# yo rony why didn't the terminal run???
 			self.simtension += 8
-			self.position1 += Rand_num * 2
-			self.morale1 += Rand_num - 5
+			thelist[8] += Rand_num * 2
+			thelist[1] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
-			self.morale1 += Rand_num + 1
+			thelist[1] += Rand_num + 1
+		return thelist
 	
 	def simp1p(self,Command_num):
 		if Command_num == 1:

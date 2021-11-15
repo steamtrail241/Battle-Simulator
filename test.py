@@ -7,6 +7,7 @@ ai.player.inf = 100
 ai.player.cav = 200
 ai.originalset(500)
 a = time.time()
-ai.predict(None, 7, 5, None, player=True)
+b = [[0,0,0,0,0,0,0,0,0,0,0,0],]
+ai.predict(None, 7, 5, b, player=True)
 print("Ronys computer is an idiot")
 print(time.time()-a)
