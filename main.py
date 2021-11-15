@@ -1,11 +1,11 @@
 import time, random, asyncio, log
-import functions as jas
+import Jasons_functions as jas
 import artificial_inteligence as ai
 # what is tension?
 # if tension is the thing that breaks the first loop, shouldn't you make the tension break higher?
 # when the AI makes it's move, the tension should increase as well right?
 # therefore the tension break loop statment should be higher
-
+#test line
 co = jas.fg
 bg = jas.bc()
 
@@ -20,7 +20,6 @@ jas.pwc("type '.stat help' for information", co.Cyan)
 print("Shaan is a cool dude")
 print("Shann is a cool dude!!!!")
 print("however,\nRony is not a cool dude.")
-print("In the end we know that Jason carried this project ~ Shivam")
 # =============================================================================
 global Friendly
 Friendly = ai.AI()
@@ -406,16 +405,17 @@ while Skirmish_check == 1:
             if Subturn_count == 3:
                 Subturn_count = 0
             if Command_num == 1:
-                Rand_num = random.randint(0.10, 0.20)
-                Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
-                        1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
+                jas.damage()
+            #Rand_num = random.randint(0.10, 0.20)
+            #Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
+                        #1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
                                                  1 - (Friendly.organization) / 50)
-                Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
-                Friendly.inf -= Friendly.inf_losses
-                Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
-                Friendly.cav -= Friendly.cav_losses
-                Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 100
-                Friendly.suppresion += (Friendly.player.damage / Friendly.size) * 25
+                #Friendly.inf_losses = Friendly.player.damage * (Friendly.inf / (Friendly.cav + Friendly.inf))
+                #Friendly.inf -= Friendly.inf_losses
+               # Friendly.cav_losses = Friendly.player.damage * (Friendly.cav / (Friendly.cav + Friendly.inf))
+               # Friendly.cav -= Friendly.cav_losses
+              #  Friendly.morale -= ((Friendly.inf_losses + Friendly.cav_losses) / Friendly.size) * 100
+               # Friendly.suppresion += (Friendly.player.damage / Friendly.size) * 25
             if Command_num == 2:
                 Rand_num = random.randint(0.05, 0.10)
                 Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
