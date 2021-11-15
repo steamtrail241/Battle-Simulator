@@ -72,7 +72,10 @@ class AI(object):
 	def predict(self, thati, simpart, deapth, thelist, player=False):
 		if deapth == 0:
 			self.simtension = 0
-			return random.randint(1,100)
+			a = 0
+			for i in thelist:
+				a += i
+			
 			
 		elif player:
 			if simpart == 7:
