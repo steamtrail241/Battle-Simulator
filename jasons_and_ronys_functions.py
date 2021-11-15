@@ -50,9 +50,9 @@ def pwc(words, color, endtf=False):
 
 # CALCULATION FOR COMBAT
 def damage(base, suppresion_effect, defense_effect, organization_effect, suppresion, defense, organization):
-  suppresion_effect /= 100
-  defense_effect /= 100
-  organization_effect /= 100
+  suppresion_effect /= 1000
+  defense_effect /= 1000
+  organization_effect /= 1000
   return (base - suppresion*suppresion_effect - defense*defense_effect - organization*organization_effect)
 
 def dmgEffect(damage, moralval, orgval, suprval, inf_num, cav_num, arti_num, enemy_size):
