@@ -63,46 +63,73 @@ class AI(object):
 		self.seeplayer1.cav = self.seeplayer.cav
 		self.seeplayer1.inf = self.seeplayer.inf
 		self.seeplayer1.arti = self.seeplayer.arti
-		# self.seeplayer1.scouting = self.seeplayer.scouting
+		self.seeplayer1.scouting = self.seeplayer.scouting
 		self.seeplayer1.position = self.seeplayer.position
 		self.seeplayer1.defense = self.seeplayer.defense
 		self.seeplayer1.commands = self.seeplayer.commands
-		# self.seeplayer1.damage = self.seeplayer.damage
+		self.seeplayer1.damage = self.seeplayer.damage
 
 	def predict(self, thati, simpart, deapth, thelist, player=False):
+		# formula is (bot's total)-(players total)
+		# bot wants to maximize
+		# player wants to minimize
 		if deapth == 0:
 			self.simtension = 0
-			return random.randint(1,100)
+			a = 0
+			for i in thelist[0]:
+				a+=i
+			for i in thelist[1]:
+				a-=i
+			return a
+			
 			
 		elif player:
 			if simpart == 7:
 				if self.simtension<=60:
-					alist = self.simp1b(thati)
+					alist = self.simp1b(thati, thelist)
 					outcomes = []
 					for i in range(1,8):
-						print(str(i)+" "+str(deapth)+" bot move")
+						lo.ws(str(i), [deapth, "bot move"])
+						if deapth == 1:
+							avar = self.simp1p(i, alist, tf=True)
+							alist = avar[0]
+							avar1 = avar[1]
+							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth-1, alist))
-					return int(self.min(outcomes))
+						if deapth == 1:
+							alist[avar1]-=avar
+							print("yay!!!!")
+							arandomvariablethatnoonecaresabout = 1
+							print(arandomvariablethatnoonecaresabout)
+					lo.ws("outcomes on bot", outcomes)
+					return int(self.max(outcomes))
 
 				else:
 					simpart = 5
 			
 			if simpart == 5:
 				if self.simtension<=60:
-					print("got to simtension = 5 bot ")
+					lo.ws("got to simtension = 5 bot ", [])
 					return 10000
 			else:
 				print("something went whong with sim part")
 		else:
 			if simpart == 7:
 				if self.simtension<=60:
-					self.simp1p(thati)
-					alist = [self.size1, self.count1, self.morale1, self.cav1, self.inf1, self.arti1, self.suppresion1, self.organization1, self.defense1, self.position1, self.commands1, self.center1, self.flank]
+					alist = self.simp1p(thati, thelist)
 					outcomes = []
 					for i in range(1,8):
-						print(str(i)+" "+str(deapth))
+						lo.ws(str(i), [deapth, "player move"])
+						if deapth == 1:
+							avar = self.simp1b(i, alist)
+							alist = avar[0]
+							avar1 = avar[1]
+							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth-1, alist, player=True))
-						print(outcomes)
+						if deapth == 1:
+							alist[avar1]-=avar
+						print("player outcomes")
+					lo.ws("outcomes on player ", outcomes)
 					a = self.min(outcomes)
 					return a
 				else:
@@ -114,18 +141,21 @@ class AI(object):
 
 
 	def min(self, the_list):
-		smollest = 100
+		print(the_list)
+		smollest = 10000
 		for i in range(3):
 			for v in the_list:
 				if v<smollest:
-					v = smollest
-		return smollest
+					smollest = v
+		return v
 	
-	def man(self, val1, val2):
-		if val1<val2:
-			return val1
-		else:
-			return val2
+	def max(self, thelist):
+		largest = 100000000000
+		for i in range(3):
+			for v in thelist:
+				if v>largest:
+					largest = v
+		return v
 
 	def sim2b(self, Command_num):
 		self.simtension += random.randint(1, 3)
@@ -334,7 +364,7 @@ class AI(object):
 		lo.ws("What AI sees", [self.seeplayer.count, self.seeplayer.morale, self.seeplayer.suppresion, self.seeplayer.organization, self.seeplayer.cav, self.seeplayer.inf, self.seeplayer.arti, self.seeplayer.scouting, self.seeplayer.position, self.seeplayer.defense, self.seeplayer.commands, self.seeplayer.damage])
 		lo.ws("AI scouting", [self.scouting])
 
-	def simp1b(self,Command_num, thelist):
+	def simp1b(self,Command_num, thelist, tf=False):
 		# list index repersent
 		# 0 : count
 		# 1 : morale
@@ -350,16 +380,16 @@ class AI(object):
 		# 11: damage
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
-			thelist[9] += Rand_num
+			thelist[0][9] += Rand_num
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
-			thelist[10] += Rand_num - 2
+			thelist[0][10] += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
 			self.morale += Rand_num * 2
-			thelist[3] += Rand_num - 5
+			thelist[0][3] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
@@ -370,57 +400,83 @@ class AI(object):
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
-			thelist[8] += Rand_num
+			thelist[0][8] += Rand_num
 			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
 			# yo rony why didn't the terminal run???
 			self.simtension += 8
-			thelist[8] += Rand_num * 2
-			thelist[1] += Rand_num - 5
+			thelist[0][8] += Rand_num * 2
+			thelist[0][1] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
-			thelist[1] += Rand_num + 1
-		return thelist
+			thelist[0][1] += Rand_num + 1
+		if tf is False:
+			return thelist
+		else:
+			return [thelist, Rand_num, Command_num-1]
 	
-	def simp1p(self,Command_num):
+	def simp1p(self,Command_num, thelist, tf=False):
+		# list index repersent
+		# 0 : count
+		# 1 : morale
+		# 2 : supresion
+		# 3 : organization
+		# 4 : cav
+		# 5 : inf
+		# 6 : arti
+		# 7 : scouting
+		# 8 : position
+		# 9 : defense
+		# 10: commands
+		# 11: damage
 		if Command_num == 1:
+			# defense
 			Rand_num = random.randint(1, 3)
-			self.seeplayer1.defense += Rand_num
+			thelist[1][9] += Rand_num
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
-			self.seeplayer1.commands += Rand_num - 2
+			# commands
+			thelist[1][10] += Rand_num - 2
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
-			self.seeplayer1.morale += Rand_num * 2
-			self.seeplayer1.organization += Rand_num - 5
+			# morale and organization
+			thelist[1][1] += Rand_num * 2
+			thelist[1][3] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			self.seeplayer1.scouting += Rand_num
-			if self.seeplayer1.scouting >20:
-				self.seeplayer1.scouting = 20
+			# scouting
+			thelist[1][7] += Rand_num
+			if thelist[1][7] >20:
+				thelist[1][7] = 20
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
-			self.seeplayer1.position += Rand_num
+			# position
+			thelist[1][8] += Rand_num
 			self.simtension += 5
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
-			# yo rony why didn't the terminal run???
+			# position and morale
 			self.simtension += 8
-			self.seeplayer1.position += Rand_num * 2
-			self.seeplayer1.morale += Rand_num - 5
+			thelist[1][8] += Rand_num * 2
+			thelist[1][1] += Rand_num - 5
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
-			self.seeplayer1.morale += Rand_num + 1
+			# morale
+			thelist[1][1] += Rand_num + 1
+		if tf is False:
+			return thelist
+		else:
+			return [thelist, Rand_num, Command_num-1]
 	
 	def afunc(self, othervar, howmuch):
 		c1 = False
