@@ -69,76 +69,80 @@ class AI(object):
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
 
-	def predict(self, thati, simpart, deapth, thelist, player=False):
-		# formula is (bot's total)-(players total)
-		# bot wants to maximize
-		# player wants to minimize
-		if deapth == 0:
-			self.simtension = 0
-			a = 0
-			for i in thelist[0]:
-				a+=i
-			for i in thelist[1]:
-				a-=i
-			return a
-			
-			
-		elif player:
-			if simpart == 7:
-				if self.simtension<=60:
-					alist = self.simp1b(thati, thelist)
-					outcomes = []
-					for i in range(1,8):
-						lo.ws(str(i), [deapth, "bot move"])
-						if deapth == 1:
-							avar = self.simp1p(i, alist, tf=True)
-							alist = avar[0]
-							avar1 = avar[1]
-							avar = avar[2]
-						outcomes.append(self.predict(i, simpart, deapth-1, alist))
-						if deapth == 1:
-							alist[avar1]-=avar
-							print("yay!!!!")
-							arandomvariablethatnoonecaresabout = 1
-							print(arandomvariablethatnoonecaresabout)
-					lo.ws("outcomes on bot", outcomes)
-					return int(self.max(outcomes))
+	    def predict(self, thati, simpart, deapth, thelist, player=False):
+        # formula is (bot's total)-(players total)
+        # bot wants to maximize
+        # player wants to minimize
+        if deapth == 0:
+            self.simtension = 0
+            a = 0
+            for i in thelist[0]:
+                a += i
+            for i in thelist[1]:
+                a -= i
+            return a
 
-				else:
-					simpart = 5
-			
-			if simpart == 5:
-				if self.simtension<=60:
-					lo.ws("got to simtension = 5 bot ", [])
-					return 10000
-			else:
-				print("something went whong with sim part")
+
+        elif player:
+            if simpart == 7:
+                if self.simtension <= 60:
+                    alist = self.simp1b(thati, thelist)
+                    outcomes = []
+                    for i in range(1, 8):
+                        lo.ws(str(i), [deapth, "bot move"])
+                        if deapth == 1:
+                            avar = self.simp1b(i, alist, tf=True)
+                            alist = avar[0]
+                            avar1 = avar[1]
+                            avar = avar[2]
+                        outcomes.append(self.predict(i, simpart, deapth - 1, alist))
+                        if deapth == 1:
+                            alist = self.changevarinai(alist[0], avar1, avar)
+                    lo.ws("outcomes on bot", outcomes)
+                    return int(self.max(outcomes))
+
+                else:
+                    simpart = 5
+
+            if simpart == 5:
+                if self.simtension <= 60:
+                    lo.ws("got to simtension = 5 bot ", [])
+                    return 10000
+            else:
+                print("something went whong with sim part")
+        else:
+            if simpart == 7:
+                if self.simtension <= 60:
+                    alist = self.simp1p(thati, thelist)
+                    outcomes = []
+                    for i in range(1, 8):
+                        lo.ws(str(i), [deapth, "player move"])
+                        if deapth == 1:
+                            avar = self.simp1b(i, alist)
+                            alist = avar[0]
+                            avar1 = avar[1]
+                            avar = avar[2]
+                        outcomes.append(self.predict(i, simpart, deapth - 1, alist, player=True))
+                        if deapth == 1:
+                            self.changevarinai(alist[1], avar1, avar)
+                        print("player outcomes")
+                    lo.ws("outcomes on player ", outcomes)
+                    a = self.min(outcomes)
+                    return a
+                else:
+                    simpart = 5
+            if simpart == 5:
+                if self.simtension <= 60:
+                    print("got to simpart = 5 player")
+                    return 1000
+
+	def changevarinai(self, var1, var2, var3):
+		if type(var3)==list:
+			for i in var3:
+				var1[i[0]]-=i[1]
 		else:
-			if simpart == 7:
-				if self.simtension<=60:
-					alist = self.simp1p(thati, thelist)
-					outcomes = []
-					for i in range(1,8):
-						lo.ws(str(i), [deapth, "player move"])
-						if deapth == 1:
-							avar = self.simp1b(i, alist)
-							alist = avar[0]
-							avar1 = avar[1]
-							avar = avar[2]
-						outcomes.append(self.predict(i, simpart, deapth-1, alist, player=True))
-						if deapth == 1:
-							alist[avar1]-=avar
-						print("player outcomes")
-					lo.ws("outcomes on player ", outcomes)
-					a = self.min(outcomes)
-					return a
-				else:
-					simpart = 5
-			if simpart == 5:
-				if self.simtension <=60:
-					print("got to simpart = 5 player")
-					return 1000
-
+			var1[var2]=var3
+		return var1
 
 	def min(self, the_list):
 		print(the_list)
@@ -381,27 +385,32 @@ class AI(object):
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
 			thelist[0][9] += Rand_num
+			Command_num = 9
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
 			thelist[0][10] += Rand_num - 2
+			Command_num = 10
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
 			self.morale += Rand_num * 2
 			thelist[0][3] += Rand_num - 5
+			Command_num = [[1, Rand_num * 2],[3, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			# self.scouting1 += Rand_num
-			#if self.scouting1 >20:
-			#	self.scouting1 = 20
+			self.scouting1 += Rand_num
+			if self.scouting1 >20:
+				self.scouting1 = 20
+			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
 			thelist[0][8] += Rand_num
 			self.simtension += 5
+			Command_num = 8
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
@@ -409,14 +418,16 @@ class AI(object):
 			self.simtension += 8
 			thelist[0][8] += Rand_num * 2
 			thelist[0][1] += Rand_num - 5
+			Command_num = [[8, Rand_num*2],[1, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
 			thelist[0][1] += Rand_num + 1
+			Command_num = 1
 		if tf is False:
 			return thelist
 		else:
-			return [thelist, Rand_num, Command_num-1]
+			return [thelist, Rand_num, Command_num]
 	
 	def simp1p(self,Command_num, thelist, tf=False):
 		# list index repersent
@@ -436,17 +447,20 @@ class AI(object):
 			# defense
 			Rand_num = random.randint(1, 3)
 			thelist[1][9] += Rand_num
+			Command_num = 9
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
 			# commands
 			thelist[1][10] += Rand_num - 2
+			Command_num = 10
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
 			# morale and organization
 			thelist[1][1] += Rand_num * 2
 			thelist[1][3] += Rand_num - 5
+			Command_num = [[1, Rand_num * 2],[3, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
@@ -455,12 +469,14 @@ class AI(object):
 			thelist[1][7] += Rand_num
 			if thelist[1][7] >20:
 				thelist[1][7] = 20
+			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
 			# position
 			thelist[1][8] += Rand_num
 			self.simtension += 5
+			Command_num = 8
 		# =============================================================================
 		elif Command_num == 6:
 			Rand_num = random.randint(1, 4)
@@ -468,15 +484,17 @@ class AI(object):
 			self.simtension += 8
 			thelist[1][8] += Rand_num * 2
 			thelist[1][1] += Rand_num - 5
+			Command_num = [[8, Rand_num*2],[1, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
 			# morale
 			thelist[1][1] += Rand_num + 1
+			Command_num = 1
 		if tf is False:
 			return thelist
 		else:
-			return [thelist, Rand_num, Command_num-1]
+			return [thelist, Rand_num, Command_num]
 	
 	def afunc(self, othervar, howmuch):
 		c1 = False
