@@ -407,7 +407,7 @@ while Skirmish_check == 1:
                 Subturn_count = 0
             if Command_num == 1:
                 Rand_num = random.randint(10,20)/100
-                jas.dmgEffect(jas.damage(Rand_num, 5, 10, 20), 100, 0, 25, Friendly.inf,Friendly.cav, 0, Friendly.inf+Friendly.cav))
+                jas.dmgEffect(jas.damage(Rand_num, 5, 10, 20), 100, 0, 25, Friendly.inf,Friendly.cav, 0, Friendly.inf+Friendly.cav)
             #Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
                         #1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
                                                 # 1 - (Friendly.organization) / 50)

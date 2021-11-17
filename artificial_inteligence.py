@@ -68,80 +68,79 @@ class AI(object):
 		self.seeplayer1.defense = self.seeplayer.defense
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
+	
+	def predict(self, thati, simpart, deapth, thelist, player=False):
+		# final score is calculated through (bot total)-(player total)
+		# bot wants to mazimize player wants to minimize
+		if deapth == 0:
+			self.simtension = 0
+			a = 0
+			for i in thelist[0]:
+				a += i
+			for i in thelist[1]:
+				a -= i
+			return a
 
-	    def predict(self, thati, simpart, deapth, thelist, player=False):
-        # formula is (bot's total)-(players total)
-        # bot wants to maximize
-        # player wants to minimize
-        if deapth == 0:
-            self.simtension = 0
-            a = 0
-            for i in thelist[0]:
-                a += i
-            for i in thelist[1]:
-                a -= i
-            return a
 
+		elif player:
+			if simpart == 7:
+				if self.simtension <= 60:
+					alist = self.simp1b(thati, thelist)
+					outcomes = []
+					for i in range(1, 8):
+						lo.ws(str(i), [deapth, "bot move"])
+						if deapth == 1:
+							avar = self.simp1b(i, alist, tf=True)
+							alist = avar[0]
+							avar1 = avar[1]
+							avar = avar[2]
+						outcomes.append(self.predict(i, simpart, deapth - 1, alist))
+						if deapth == 1:
+							alist[0] = self.changevarinai(alist[0], avar, avar1)
+					lo.ws("outcomes on bot", outcomes)
+					return int(self.max(outcomes))
 
-        elif player:
-            if simpart == 7:
-                if self.simtension <= 60:
-                    alist = self.simp1b(thati, thelist)
-                    outcomes = []
-                    for i in range(1, 8):
-                        lo.ws(str(i), [deapth, "bot move"])
-                        if deapth == 1:
-                            avar = self.simp1b(i, alist, tf=True)
-                            alist = avar[0]
-                            avar1 = avar[1]
-                            avar = avar[2]
-                        outcomes.append(self.predict(i, simpart, deapth - 1, alist))
-                        if deapth == 1:
-                            alist = self.changevarinai(alist[0], avar1, avar)
-                    lo.ws("outcomes on bot", outcomes)
-                    return int(self.max(outcomes))
+				else:
+					simpart = 5
 
-                else:
-                    simpart = 5
-
-            if simpart == 5:
-                if self.simtension <= 60:
-                    lo.ws("got to simtension = 5 bot ", [])
-                    return 10000
-            else:
-                print("something went whong with sim part")
-        else:
-            if simpart == 7:
-                if self.simtension <= 60:
-                    alist = self.simp1p(thati, thelist)
-                    outcomes = []
-                    for i in range(1, 8):
-                        lo.ws(str(i), [deapth, "player move"])
-                        if deapth == 1:
-                            avar = self.simp1b(i, alist)
-                            alist = avar[0]
-                            avar1 = avar[1]
-                            avar = avar[2]
-                        outcomes.append(self.predict(i, simpart, deapth - 1, alist, player=True))
-                        if deapth == 1:
-                            self.changevarinai(alist[1], avar1, avar)
-                        print("player outcomes")
-                    lo.ws("outcomes on player ", outcomes)
-                    a = self.min(outcomes)
-                    return a
-                else:
-                    simpart = 5
-            if simpart == 5:
-                if self.simtension <= 60:
-                    print("got to simpart = 5 player")
-                    return 1000
+			if simpart == 5:
+				if self.simtension <= 60:
+					lo.ws("got to simtension = 5 bot ", [])
+					return 10000
+			else:
+				print("something went whong with sim part")
+		else:
+			if simpart == 7:
+				if self.simtension <= 60:
+					alist = self.simp1p(thati, thelist)
+					outcomes = []
+					for i in range(1, 8):
+						lo.ws(str(i), [deapth, "player move"])
+						if deapth == 1:
+							avar = self.simp1b(i, alist)
+							alist = avar[0]
+							avar1 = avar[1]
+							avar = avar[2]
+						outcomes.append(self.predict(i, simpart, deapth - 1, alist, player=True))
+						if deapth == 1:
+							self.changevarinai(alist[1], avar, avar1)
+						print("player outcomes")
+					lo.ws("outcomes on player ", outcomes)
+					a = self.min(outcomes)
+					return a
+				else:
+					simpart = 5
+			if simpart == 5:
+				if self.simtension <= 60:
+					print("got to simpart = 5 player")
+					return 1000
 
 	def changevarinai(self, var1, var2, var3):
 		if type(var3)==list:
 			for i in var3:
 				var1[i[0]]-=i[1]
 		else:
-			var1[var2]=var3
+			var1[var2]-=var3
 		return var1
 
 	def min(self, the_list):
@@ -401,9 +400,10 @@ class AI(object):
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			self.scouting1 += Rand_num
-			if self.scouting1 >20:
-				self.scouting1 = 20
+			if thelist[0][7]+Rand_num<20:
+				thelist[0][7] += Rand_num
+			else:
+				Rand_num = 20-thelist[0][7]
 			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
@@ -466,9 +466,10 @@ class AI(object):
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
 			# scouting
-			thelist[1][7] += Rand_num
-			if thelist[1][7] >20:
-				thelist[1][7] = 20
+			if thelist[1][7]+Rand_num<20:
+				thelist[1][7] += Rand_num
+			else:
+				Rand_num = 20-thelist[1][7]
 			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
