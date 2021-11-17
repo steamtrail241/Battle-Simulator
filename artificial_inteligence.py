@@ -95,8 +95,7 @@ class AI(object):
 							avar1 = avar[1]
 							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth - 1, alist))
-						if deapth == 1:
-							alist[0] = self.changevarinai(alist[0], avar, avar1)
+						alist = thelist.copy()
 					lo.ws("outcomes on bot", outcomes)
 					return int(self.max(outcomes))
 
@@ -122,8 +121,7 @@ class AI(object):
 							avar1 = avar[1]
 							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth - 1, alist, player=True))
-						if deapth == 1:
-							self.changevarinai(alist[1], avar, avar1)
+						alist = thelist.copy()
 						print("player outcomes")
 					lo.ws("outcomes on player ", outcomes)
 					a = self.min(outcomes)
@@ -136,8 +134,8 @@ class AI(object):
 					return 1000
 
 	def changevarinai(self, var1, var2, var3):
-		if type(var3)==list:
-			for i in var3:
+		if type(var2)==list:
+			for i in var2:
 				var1[i[0]]-=i[1]
 		else:
 			var1[var2]-=var3
@@ -150,15 +148,15 @@ class AI(object):
 			for v in the_list:
 				if v<smollest:
 					smollest = v
-		return v
+		return smollest
 	
 	def max(self, thelist):
-		largest = 100000000000
+		largest = -100000000000
 		for i in range(3):
 			for v in thelist:
 				if v>largest:
 					largest = v
-		return v
+		return largest
 
 	def sim2b(self, Command_num):
 		self.simtension += random.randint(1, 3)
@@ -367,7 +365,7 @@ class AI(object):
 		lo.ws("What AI sees", [self.seeplayer.count, self.seeplayer.morale, self.seeplayer.suppresion, self.seeplayer.organization, self.seeplayer.cav, self.seeplayer.inf, self.seeplayer.arti, self.seeplayer.scouting, self.seeplayer.position, self.seeplayer.defense, self.seeplayer.commands, self.seeplayer.damage])
 		lo.ws("AI scouting", [self.scouting])
 
-	def simp1b(self,Command_num, thelist, tf=False):
+	def simp1b(self,Command_num, thelist1, tf=False):
 		# list index repersent
 		# 0 : count
 		# 1 : morale
@@ -381,34 +379,36 @@ class AI(object):
 		# 9 : defense
 		# 10: commands
 		# 11: damage
+		thelist1 = thelist1.copy()
 		if Command_num == 1:
 			Rand_num = random.randint(1, 3)
-			thelist[0][9] += Rand_num
+			thelist1[0][9] += Rand_num
 			Command_num = 9
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
-			thelist[0][10] += Rand_num - 2
+			thelist1[0][10] += Rand_num - 2
 			Command_num = 10
+			Rand_num -= 2
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
-			self.morale += Rand_num * 2
-			thelist[0][3] += Rand_num - 5
+			thelist1[0][1] += Rand_num * 2
+			thelist1[0][3] += Rand_num - 5
 			Command_num = [[1, Rand_num * 2],[3, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
-			if thelist[0][7]+Rand_num<20:
-				thelist[0][7] += Rand_num
+			if thelist1[0][7]+Rand_num<20:
+				thelist1[0][7] += Rand_num
 			else:
-				Rand_num = 20-thelist[0][7]
+				Rand_num = 20-thelist1[0][7]
 			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
-			thelist[0][8] += Rand_num
+			thelist1[0][8] += Rand_num
 			self.simtension += 5
 			Command_num = 8
 		# =============================================================================
@@ -416,20 +416,21 @@ class AI(object):
 			Rand_num = random.randint(1, 4)
 			# yo rony why didn't the terminal run???
 			self.simtension += 8
-			thelist[0][8] += Rand_num * 2
-			thelist[0][1] += Rand_num - 5
+			thelist1[0][8] += Rand_num * 2
+			thelist1[0][1] += Rand_num - 5
 			Command_num = [[8, Rand_num*2],[1, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
-			thelist[0][1] += Rand_num + 1
+			thelist1[0][1] += Rand_num + 1
 			Command_num = 1
+			Rand_num += 1
 		if tf is False:
-			return thelist
+			return thelist1
 		else:
-			return [thelist, Rand_num, Command_num]
+			return [thelist1, Rand_num, Command_num]
 	
-	def simp1p(self,Command_num, thelist, tf=False):
+	def simp1p(self,Command_num, thelist1, tf=False):
 		# list index repersent
 		# 0 : count
 		# 1 : morale
@@ -443,39 +444,40 @@ class AI(object):
 		# 9 : defense
 		# 10: commands
 		# 11: damage
+		thelist1 = thelist1.copy()
 		if Command_num == 1:
 			# defense
 			Rand_num = random.randint(1, 3)
-			thelist[1][9] += Rand_num
+			thelist1[1][9] += Rand_num
 			Command_num = 9
 		# =============================================================================
 		elif Command_num == 2:
 			Rand_num = random.randint(1, 5)
 			# commands
-			thelist[1][10] += Rand_num - 2
+			thelist1[1][10] += Rand_num - 2
 			Command_num = 10
 		# =============================================================================
 		elif Command_num == 3:
 			Rand_num = random.randint(1, 3)
 			# morale and organization
-			thelist[1][1] += Rand_num * 2
-			thelist[1][3] += Rand_num - 5
+			thelist1[1][1] += Rand_num * 2
+			thelist1[1][3] += Rand_num - 5
 			Command_num = [[1, Rand_num * 2],[3, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 4:
 			Rand_num = random.randint(1, 4)
 			self.simtension += 2
 			# scouting
-			if thelist[1][7]+Rand_num<20:
-				thelist[1][7] += Rand_num
+			if thelist1[1][7]+Rand_num<20:
+				thelist1[1][7] += Rand_num
 			else:
-				Rand_num = 20-thelist[1][7]
+				Rand_num = 20-thelist1[1][7]
 			Command_num = 7
 		# =============================================================================
 		elif Command_num == 5:
 			Rand_num = random.randint(2, 3)
 			# position
-			thelist[1][8] += Rand_num
+			thelist1[1][8] += Rand_num
 			self.simtension += 5
 			Command_num = 8
 		# =============================================================================
@@ -483,19 +485,19 @@ class AI(object):
 			Rand_num = random.randint(1, 4)
 			# position and morale
 			self.simtension += 8
-			thelist[1][8] += Rand_num * 2
-			thelist[1][1] += Rand_num - 5
+			thelist1[1][8] += Rand_num * 2
+			thelist1[1][1] += Rand_num - 5
 			Command_num = [[8, Rand_num*2],[1, Rand_num-5]]
 		# =============================================================================
 		elif Command_num == 7:
 			Rand_num = random.randint(1, 3)
 			# morale
-			thelist[1][1] += Rand_num + 1
+			thelist1[1][1] += Rand_num + 1
 			Command_num = 1
 		if tf is False:
-			return thelist
+			return thelist1
 		else:
-			return [thelist, Rand_num, Command_num]
+			return [thelist1, Rand_num, Command_num]
 	
 	def afunc(self, othervar, howmuch):
 		c1 = False
