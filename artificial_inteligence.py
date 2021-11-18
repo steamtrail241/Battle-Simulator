@@ -85,19 +85,27 @@ class AI(object):
 		elif player:
 			if simpart == 7:
 				if self.simtension <= 60:
-					alist = self.simp1b(thati, thelist)
+					alist = self.simp1p(thati, thelist)
+					self.simtension = 0
+					remember = [0,0]
+					remember[0] = alist[0].copy()
+					remember[1] = alist[1].copy()
 					outcomes = []
 					for i in range(1, 8):
 						lo.ws(str(i), [deapth, "bot move"])
 						if deapth == 1:
 							avar = self.simp1b(i, alist, tf=True)
 							alist = avar[0]
-							avar1 = avar[1]
-							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth - 1, alist))
-						alist = thelist.copy()
+						alist = [0,0]
+						alist[0] = remember[0].copy()
+						alist[1] = remember[1].copy()
 					lo.ws("outcomes on bot", outcomes)
-					return int(self.max(outcomes))
+					print(outcomes)
+					aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout = self.max(outcomes)
+					print(aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout)
+					print(deapth)
+					return aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout
 
 				else:
 					simpart = 5
@@ -111,20 +119,27 @@ class AI(object):
 		else:
 			if simpart == 7:
 				if self.simtension <= 60:
-					alist = self.simp1p(thati, thelist)
+					alist = self.simp1b(thati, thelist)
+					self.simtension = 0
+					remember = [0,0]
+					remember[0] = alist[0].copy()
+					remember[1] = alist[1].copy()
 					outcomes = []
 					for i in range(1, 8):
 						lo.ws(str(i), [deapth, "player move"])
 						if deapth == 1:
 							avar = self.simp1b(i, alist)
 							alist = avar[0]
-							avar1 = avar[1]
-							avar = avar[2]
 						outcomes.append(self.predict(i, simpart, deapth - 1, alist, player=True))
-						alist = thelist.copy()
+						alist = [0,0]
+						alist[0] = remember[0].copy()
+						alist[1] = remember[1].copy()
 						print("player outcomes")
 					lo.ws("outcomes on player ", outcomes)
 					a = self.min(outcomes)
+					print(outcomes)
+					print(a)
+					print(deapth)
 					return a
 				else:
 					simpart = 5
@@ -142,7 +157,6 @@ class AI(object):
 		return var1
 
 	def min(self, the_list):
-		print(the_list)
 		smollest = 10000
 		for i in range(3):
 			for v in the_list:
