@@ -219,7 +219,10 @@ while Maneuver_check == 1:
             if Rand_num == 3:
                 jas.pwc("You perform a brilliant speech to your troops, your army becomes estatic and determined",
                         co.Green)
-        pass
+        somethinglist = [Friendly.count, Friendly.morale, Friendly.suppresion, Friendly.organization, Friendly.cav, Friendly.inf, Friendly.arti, Friendly.scouting, Friendly.position, Friendly.defense, Friendly.commands, Friendly.damage]
+        somethinglist1 = [Friendly.player.count, Friendly.player.morale, Friendly.player.suppresion, Friendly.player.organization, Friendly.player.cav, Friendly.player.inf, Friendly.player.arti, Friendly.player.scouting, Friendly.player.position, Friendly.player.defense, Friendly.player.commands, Friendly.player.damage]
+        something_else = [somethinglist, somethinglist1]
+        Friendly.predict(None, 7, 3, something_else, player=True)
 
 Tension = 0
 
