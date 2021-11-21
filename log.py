@@ -5,7 +5,7 @@ def onstart():
 	a = open("log", "w")
 	a.write(time.time())
 
-def ws(tittle, alist1):
+def ws(tittle, alist1, timetf=False):
 	data = []
 	with open("log","r+") as a:
 		data = a.readlines()
@@ -19,10 +19,12 @@ def ws(tittle, alist1):
 			else:
 				c1 = True
 		alist.append(line)
-	alist.append(str(time.ctime()))
+	if timetf:
+		alist.append(str(time.ctime()))
 	alist.append(tittle)
 	for i in alist1:
 		alist.append(str(i))
+	alist.append("========")
 	a = open("log", "w")
 	for i in alist:
 		a.write(i+"\n")

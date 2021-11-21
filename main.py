@@ -219,7 +219,10 @@ while Maneuver_check == 1:
             if Rand_num == 3:
                 jas.pwc("You perform a brilliant speech to your troops, your army becomes estatic and determined",
                         co.Green)
-        pass
+        somethinglist = [Friendly.count, Friendly.morale, Friendly.suppresion, Friendly.organization, Friendly.cav, Friendly.inf, Friendly.arti, Friendly.scouting, Friendly.position, Friendly.defense, Friendly.commands, Friendly.damage]
+        somethinglist1 = [Friendly.player.count, Friendly.player.morale, Friendly.player.suppresion, Friendly.player.organization, Friendly.player.cav, Friendly.player.inf, Friendly.player.arti, Friendly.player.scouting, Friendly.player.position, Friendly.player.defense, Friendly.player.commands, Friendly.player.damage]
+        something_else = [somethinglist, somethinglist1]
+        Friendly.predict(None, 7, 3, something_else, player=True)
 
 Tension = 0
 
@@ -407,7 +410,7 @@ while Skirmish_check == 1:
                 Subturn_count = 0
             if Command_num == 1:
                 Rand_num = random.randint(10,20)/100
-                jas.dmgEffect(jas.damage(Rand_num, 5, 10, 20),100,0,25,Friendly.inf,Friendly.cav,0,Friendly.inf+Friendly.cav))
+                jas.dmgEffect(jas.damage(Rand_num, 5, 10, 20), 100, 0, 25, Friendly.inf,Friendly.cav, 0, Friendly.inf+Friendly.cav)
             #Friendly.player.damage = Rand_num * (Friendly.player.cav) / 4 * (Rand_num) * (
                         #1 - (Friendly.player.suppresion) / 200) * (1 - (Friendly.defense) / 100) * (
                                                 # 1 - (Friendly.organization) / 50)
