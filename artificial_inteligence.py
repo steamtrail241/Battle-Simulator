@@ -71,17 +71,19 @@ class AI(object):
 		self.seeplayer1.damage = self.seeplayer.damage
 	
 	class myvariable(object):
-		def __init__(self1, number, i=None):
+		def __init__(self1, number, i=[]):
 			self1.num = number
-			self1.i = []
+			self1.i = i
 
 
 	def settoclass(self, thelisttochange):
 		changedlist = [[],[]]
 		for i in thelisttochange[0]:
-			changedlist[0].append(self.myvariable(i))
+			smth = self.myvariable(i)
+			changedlist[0].append(smth)
 		for i in thelisttochange[1]:
-			changedlist[1].append(self.myvariable(i))
+			smth = self.myvariable(i)
+			changedlist[1].append(smth)
 		return changedlist
 
 	def predict(self, thati, simpart, deapth, tfRealDeapth, thelist, originali=None, player=False):
@@ -94,7 +96,7 @@ class AI(object):
 				a += i.num
 			for i in thelist[1]:
 				a -= i.num
-			return self.myvariable(a, originali)
+			return self.myvariable(a, i.i)
 
 		# if it is Bot's turn
 		elif player:
@@ -107,10 +109,21 @@ class AI(object):
 					# change value in list according to the i that has been givin (thati variable)
 					alist = self.simp1p(thati, thelist)
 					self.simtension = 0
-					
+
 					# sets remember to original list in case this is deapth 1
 					remember = self.rememberNewList(alist)
 					outcomes = []
+
+					# adding i
+					for i in alist:
+						for i1 in i:
+							i1.i.append(thati)
+							break
+						break
+					
+					self.fordebuging(alist)
+					self.fordebuging(remember)
+
 					for i in range(1, 8):
 						if deapth == 1:
 							
@@ -128,6 +141,9 @@ class AI(object):
 						else:
 							outcomes.append(self.predict(i, simpart, deapth - 1, False, alist, originali=originali))
 						
+						self.fordebuging(alist)
+						self.fordebuging(remember)
+
 						# for debugging use
 						for i in outcomes:
 							print(i.num, end=" ")
@@ -138,7 +154,6 @@ class AI(object):
 					
 					# finds max of all outcomes as bot wants to maximize score
 					aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout = self.max(outcomes, thati)
-					aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout.i = thati
 					return aRandomVariableThatIsOnlyUsedOnceAndNoOneCaresAbout
 
 				else:
@@ -178,12 +193,21 @@ class AI(object):
 				if self.simtension <= 60:
 					return 1000
 
+	def fordebuging(self, thelisttoprint):
+		#for i in thelisttoprint:
+		#	for i1 in i:
+		#		print(i1.i, end = "")
+		#print("")
+		pass
+
 	def rememberNewList(self, TLTGTBC):
 		new = [[],[]]
 		for i in TLTGTBC[0]:
-			new[0].append(self.myvariable(i.num, i.i))
+			smth = self.myvariable(i.num, i.i)
+			new[0].append(smth)
 		for i in TLTGTBC[1]:
-			new[1].append(self.myvariable(i.num, i.i))
+			smth = self.myvariable(i.num, i.i)
+			new[1].append(smth)
 		return new
 
 	def changevarinai(self, var1, var2, var3):
