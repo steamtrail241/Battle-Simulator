@@ -69,20 +69,15 @@ class AI(object):
 		self.seeplayer1.defense = self.seeplayer.defense
 		self.seeplayer1.commands = self.seeplayer.commands
 		self.seeplayer1.damage = self.seeplayer.damage
-	
-	class myvariable(object):
-		def __init__(self1, number, i=[]):
-			self1.num = number
-			self1.i = i
 
 
 	def settoclass(self, thelisttochange):
 		changedlist = [[],[]]
 		for i in thelisttochange[0]:
-			smth = self.myvariable(i)
+			smth = myvariable(i)
 			changedlist[0].append(smth)
 		for i in thelisttochange[1]:
-			smth = self.myvariable(i)
+			smth = myvariable(i)
 			changedlist[1].append(smth)
 		return changedlist
 
@@ -96,7 +91,7 @@ class AI(object):
 				a += i.num
 			for i in thelist[1]:
 				a -= i.num
-			return self.myvariable(a, i.i)
+			return myvariable(a, i.classlist)
 
 		# if it is Bot's turn
 		elif player:
@@ -117,7 +112,7 @@ class AI(object):
 					# adding i
 					for i in alist:
 						for i1 in i:
-							i1.i.append(thati)
+							i1.addtoo(thati)
 							break
 						break
 					
@@ -143,11 +138,6 @@ class AI(object):
 						
 						self.fordebuging(alist)
 						self.fordebuging(remember)
-
-						# for debugging use
-						for i in outcomes:
-							print(i.num, end=" ")
-						print("")
 						
 						# resets alist to remember
 						alist = self.rememberNewList(remember)
@@ -171,7 +161,6 @@ class AI(object):
 				if self.simtension <= 60:
 					# changes alist according to the i that has been givin (thati variable)
 					alist = self.simp1b(thati, thelist)
-					self.simtension = 0
 					# sets remember to original list in case this is deapth 1
 					remember = self.rememberNewList(alist)
 					outcomes = []
@@ -183,7 +172,6 @@ class AI(object):
 						outcomes.append(self.predict(i, simpart, deapth - 1, False, alist, player=True))
 						# resets alist to remember
 						alist = self.rememberNewList(remember)
-						print(str(thati)+str(deapth)+" player")
 					# finds minimum of outcomes as player wants to minimize score
 					a = self.min(outcomes, thati)
 					return a
@@ -203,10 +191,10 @@ class AI(object):
 	def rememberNewList(self, TLTGTBC):
 		new = [[],[]]
 		for i in TLTGTBC[0]:
-			smth = self.myvariable(i.num, i.i)
+			smth = myvariable(i.num, i.classlist)
 			new[0].append(smth)
 		for i in TLTGTBC[1]:
-			smth = self.myvariable(i.num, i.i)
+			smth = myvariable(i.num, i.classlist)
 			new[1].append(smth)
 		return new
 
@@ -219,19 +207,19 @@ class AI(object):
 		return var1
 
 	def min(self, the_list, thati):
-		smollest = self.myvariable(100000)
+		smollest = myvariable(100000)
 		for i in range(3):
 			for v in the_list:
 				if v.num<smollest.num:
-					smollest = self.myvariable(v.num, v.i)
+					smollest = myvariable(v.num, v.classlist)
 		return smollest
 	
 	def max(self, thelist, thati):
-		largest = self.myvariable(-1000000)
+		largest = myvariable(-1000000)
 		for i in range(3):
 			for v in thelist:
 				if v.num>largest.num:
-					largest = self.myvariable(v.num, v.i)
+					largest = myvariable(v.num, v.classlist)
 		return largest
 
 	def simp1b(self,Command_num, thelist1, tf=False):
@@ -607,16 +595,11 @@ class AI(object):
 
 co = ja.fg
 
-#with open("main.py", "r+") as a:
-#	data = a.readlines()
-#a = 0
-#for line in data:
-#	a += 1
-#	if "random.randint(" in line:
-#		print(line)
-#		print(a)
-#	if "if " in line:
-#		print(line)
-#		print(a)
-for i in range(1,8):
-	print(i)
+
+class myvariable:
+	def __init__(self, number, i = []):
+		self.num = number
+		self.classlist = i
+
+	def addtoo(self, helpme):
+		self.classlist.append(helpme)

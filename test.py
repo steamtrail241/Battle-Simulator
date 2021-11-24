@@ -1,5 +1,5 @@
 import artificial_inteligence as AI
-import time
+import time, log
 
 ai = AI.AI()
 ai.player.arti = 100
@@ -13,4 +13,5 @@ c = ai.predict(None, 7, 5, True,b, player=True)
 print("Ronys computer is an idiot")
 print(time.time()-a)
 print(c.num)
-print(c.i)
+print(len(c.classlist))
+print(c.classlist)
