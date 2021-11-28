@@ -1,5 +1,5 @@
 import artificial_inteligence as AI
-import time
+import time, log
 
 ai = AI.AI()
 ai.player.arti = 100
@@ -9,8 +9,8 @@ ai.originalset(500)
 a = time.time()
 b = [[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0]]
 b = ai.settoclass(b)
-c = ai.predict(None, 7, 3, True,b, player=True)
+c = ai.predict(None, 7, 3, True, b, player=True)
 print("Ronys computer is an idiot")
 print(time.time()-a)
-print(c.num)
-print(c.i)
+print(c["num"])
+print(c["path"])

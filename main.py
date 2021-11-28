@@ -194,7 +194,6 @@ while Maneuver_check == 1:
         # =============================================================================
         elif Command_num == 6:
             Rand_num = random.randint(1, 4)
-            # yo rony why didn't the terminal run???
             Tension += 8
             Friendly.player.position += Rand_num * 2
             Friendly.player.morale += Rand_num - 5
@@ -222,9 +221,73 @@ while Maneuver_check == 1:
         somethinglist = [Friendly.count, Friendly.morale, Friendly.suppresion, Friendly.organization, Friendly.cav, Friendly.inf, Friendly.arti, Friendly.scouting, Friendly.position, Friendly.defense, Friendly.commands, Friendly.damage]
         somethinglist1 = [Friendly.player.count, Friendly.player.morale, Friendly.player.suppresion, Friendly.player.organization, Friendly.player.cav, Friendly.player.inf, Friendly.player.arti, Friendly.player.scouting, Friendly.player.position, Friendly.player.defense, Friendly.player.commands, Friendly.player.damage]
         something_else = [somethinglist, somethinglist1]
-        Friendly.predict(None, 7, 3, something_else, player=True)
+        something_else = Friendly.settoclass(something_else)
+        c1 = False
+        while c1 is False:
+            avariable = Friendly.predict(None, 7, 3, True, something_else, player=True)
+            if len(avariable["path"])!=0:
+                c1 = True
+        print(avariable)
+        Command_num = avariable["path"][0]
+        print(Command_num)
+        if Command_num == 1:
+            Rand_num = random.randint(1, 3)
+            Friendly.defense += Rand_num
+        # =============================================================================
+        elif Command_num == 2:
+            Rand_num = random.randint(1, 5)
+            Friendly.commands += Rand_num - 2
+        # =============================================================================
+        elif Command_num == 3:
+            Rand_num = random.randint(1, 3)
+            Friendly.morale += Rand_num * 2
+            Friendly.organization += Rand_num - 5
+        # =============================================================================
+        elif Command_num == 4:
+            Rand_num = random.randint(1, 4)
+            Tension += 2
+            Friendly.scouting += Rand_num
+            if Friendly.scouting >20:
+              Friendly.scouting = 20
+        # =============================================================================
+        elif Command_num == 5:
+            Rand_num = random.randint(2, 3)
+            Friendly.position += Rand_num
+            Tension += 5
+        # =============================================================================
+        elif Command_num == 6:
+            Rand_num = random.randint(1, 4)
+            Tension += 8
+            Friendly.position += Rand_num * 2
+            Friendly.morale += Rand_num - 5
+        # =============================================================================
+        elif Command_num == 7:
+            Rand_num = random.randint(1, 3)
+            Friendly.morale += Rand_num + 1
 
-Tension = 0
+print(Friendly.count)
+print(Friendly.morale)
+print(Friendly.suppresion)
+print(Friendly.organization)
+print(Friendly.cav)
+print(Friendly.inf)
+print(Friendly.arti)
+print(Friendly.scouting)
+print(Friendly.position)
+print(Friendly.defense)
+print(Friendly.commands)
+
+print(Friendly.player.count)
+print(Friendly.player.morale)
+print(Friendly.player.suppresion)
+print(Friendly.player.organization)
+print(Friendly.player.cav)
+print(Friendly.player.inf)
+print(Friendly.player.arti)
+print(Friendly.player.scouting)
+print(Friendly.player.position)
+print(Friendly.player.defense)
+print(Friendly.player.commands)
 
 while Skirmish_check == 1:
     jas.easyprint("\nCONFLICT HAS ESCALATED", [["SKRIMISH PHASE: TURN ", Turn_count, 2], ["MORALE: ", Friendly.player.morale],
