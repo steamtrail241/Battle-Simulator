@@ -36,9 +36,25 @@ Command_num = 0
 time.sleep(0.2)
 print("Welcome to commander simulator!")
 # ===============================================================================
-Army_size = jas.input_checks(co.Cyan + "\nplease input battle size\n" +
-                             co.LightGreen + "[1] Small battle (500v500)\n[2] Medium battle (1000v1000)\n[3] Large battle (2000v2000)\n[4] Gigantic battle (10000v10000)" + co.LightRed,
-                             4, Friendly.player, Turn_count, Maneuver_check)
+jas.easyprint(
+    "please input battle size",
+    [
+        "Small battle (500v500)",
+        "Medium battle (1000v1000)",
+        "Large battle (2000v2000)",
+        "Gigantic battle (10000v10000)"
+    ],
+    True,
+    [co.Cyan, co.LightGreen]
+)
+
+Army_size = jas.input_checks(
+    "",
+    4,
+    Friendly.player,
+    Turn_count,
+    Maneuver_check
+)
 
 if Army_size == 1:
     Army_points = 500
@@ -54,13 +70,33 @@ elif Army_size == 4:
     Friendly.size = 10000
 time.sleep(0.2)
 
-Army_terrain = jas.input_checks(co.Cyan + "\n\nplease input terrain\n"+ co.LightGreen + "[1]flat plains\n[2]river crossing\n[3]thick forest\n[4]rugged hills\n[5]sodden swamp" + co.LightRed,5, Friendly, Turn_count, Maneuver_check)
+jas.easyprint(
+    "please input terrain",
+    [
+        "flat plains",
+        "river crossing",
+        "thick forest",
+        "rugged hills",
+        "sodden swamp"
+    ],
+    True,
+    [co.Cyan, co.LightGreen]
+)
+
+Army_terrain = jas.input_checks(
+    "",
+    5, 
+    Friendly, 
+    Turn_count, 
+    Maneuver_check
+)
+
+jas.pwc("\nplease set up your army", co.Cyan)
+jas.pwc(f'\nnput infantry count (1 army size per infantry)\nremaining army points: {Army_points}', co.Yellow)
 
 time.sleep(0.2)
 Friendly.originalset(Army_points)
-Friendly.player.inf = jas.input_checks(
-    co.Cyan + "\n\nplease set up your army" + co.Yellow + "\n\ninput infantry count (1 army size per infantry)\nremaining army points: " + str(
-        Army_points) + co.LightRed, Army_points, Friendly, Turn_count, Maneuver_check)
+Friendly.player.inf = jas.input_checks("", Army_points, Friendly, Turn_count, Maneuver_check)
 Army_points -= Friendly.player.inf
 time.sleep(0.2)
 
